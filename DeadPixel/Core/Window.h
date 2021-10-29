@@ -1,35 +1,43 @@
 #pragma once
 
-#include <cstdint>
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
+#include <dppch.h>
+#include <Core/Core.h>
+#include <Events/Event.h>
 
 namespace DP {
-class Window {
-public:
-	Window(int32_t width = 1024, int32_t height = 576, bool fullscreen = false);
-	~Window();
 
-	int initialize();
+struct WindowProperties {
+	WindowProperties(char const* window_title = "Dead Pixel",
+	                 uint32_t window_width = 1280,
+	                 uint32_t window_height = 720,
+	                 bool vsync_enabled = true)
+		: title(window_title)
+		, width(window_width)
+		, height(window_height)
+		, is_vsync_enabled(vsync_enabled)
+	{ }
 
-	void swap_buffers() { glfwSwapBuffers(m_window); }
-	void poll_events() { glfwPollEvents(); }
-
-	bool is_fullscreen() { return m_fullscreen; }
-	void set_fullscreen(bool value) { m_fullscreen = value; }
-
-	bool should_close() { return glfwWindowShouldClose(m_window); }
-	void set_should_close(bool value) { glfwSetWindowShouldClose(m_window, value); }
-
-	GLFWwindow* window() { return m_window; }
-
-private:
-	GLFWwindow* m_window;
-
-	int32_t m_width;
-	int32_t m_height;
-
-	bool m_fullscreen;
-	bool m_should_close;
+	char const* title;
+	uint32_t width;
+	uint32_t height;
+	bool is_vsync_enabled;
 };
+
+class DP_API Window {
+public:
+	using EventCallback = std::function<void(Event&)>;
+
+	static Window* create(WindowProperties const& window_properties = WindowProperties());
+	virtual ~Window() { }
+
+	virtual void on_update() = 0;
+
+	virtual uint32_t width() const = 0;
+	virtual uint32_t height() const = 0;
+	virtual void set_is_vsync_enabled(bool enabled) = 0;
+	virtual bool is_vsync_enabled() const = 0;
+
+	virtual void set_event_callback(EventCallback const&) = 0;
+};
+
 }

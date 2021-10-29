@@ -1,35 +1,30 @@
 #pragma once
-#include <string>
 
+#include <Core/Core.h>
 #include <Core/Layer.h>
+#include <Core/LayerStack.h>
 #include <Core/Window.h>
-#include <Events/Event.h>
 #include <Events/ApplicationEvent.h>
 
 namespace DP {
 
-class Application {
+class DP_API Application {
 public:
-	static Application& the() { return *s_instance; }
+	Application();
+	virtual ~Application();
 
-	Application(std::string const& app_name = "Dead Pixel App");
-	~Application();
-
-	void on_event(Event& e);
-
-	void push_layer(Layer* layer);
-	void push_overlay(Layer* layer);
-
-	void close();
-
-	Window& window();
-
-private:
 	void run();
-	void on_window_close(WindowCloseEvent& e);
-	void on_window_resize(WindowResizeEvent& e);
+	void on_event(Event&);
 
-	static Application* s_instance;
+	void push_layer(Layer*);
+	void push_overlay(Layer*);
+private:
+	bool on_window_close(WindowCloseEvent&);
+
+	std::unique_ptr<Window> m_window;
+	bool m_running;
+
+	LayerStack m_layer_stack;
 };
 
 }

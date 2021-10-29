@@ -1,9 +1,23 @@
 #pragma once
 
+#include <Core/Core.h>
+#include <Events/Event.h>
+
 namespace DP {
 
-class Layer {
+class DP_API Layer {
+public:
+	Layer(char const* name = "Layer");
+	virtual ~Layer();
 
+	virtual void on_attach() { }
+	virtual void on_detach() { }
+	virtual void on_update() { }
+	virtual void on_event (Event&) { }
+
+	inline char const* name() const { return m_name; }
+private:
+	char const* m_name;
 };
 
 }

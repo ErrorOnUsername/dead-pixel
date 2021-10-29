@@ -1,103 +1,100 @@
 #pragma once
-#include "Event.h"
 
-#include <cstdint>
-#include <sstream>
+#include <dppch.h>
+#include <Core/Core.h>
+#include <Events/Event.h>
 
 namespace DP {
-class MouseMoveEvent : public Event {
+
+class DP_API MouseMovedEvent : public Event {
 public:
-	MouseMoveEvent(float x, float y)
+	EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+	EVENT_CLASS_TYPE(MouseMoved)
+	MouseMovedEvent(float x, float y)
 		: m_mouse_x(x)
 		, m_mouse_y(y)
 	{ }
 
-	inline float x() const { return m_mouse_x; }
-	inline float y() const { return m_mouse_y; }
+	inline float mouse_x() const { return m_mouse_x; }
+	inline float mouse_y() const { return m_mouse_y; }
 
-	std::string to_str() const override
+	virtual std::string to_string() const override
 	{
 		std::stringstream ss;
-		ss << "[MouseMoveEvent] x: " << m_mouse_x << " y: " << m_mouse_y;
-		ss.str();
+		ss << "MouseMovedEvent: x = " << m_mouse_x << " y = " << m_mouse_y;
+		return ss.str();
 	}
-
-	EVENT_TYPE(MouseMove)
-	EVENT_CATEGORY(Mouse | Input)
-
 private:
 	float m_mouse_x;
 	float m_mouse_y;
 };
 
-class MouseScrollEvent : public Event {
+class DP_API MouseScrolledEvent : public Event {
 public:
-	MouseScrollEvent(int32_t x_offset, int32_t y_offset)
+	EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+	EVENT_CLASS_TYPE(MouseScrolled)
+	MouseScrolledEvent(float x_offset, float y_offset)
 		: m_x_offset(x_offset)
 		, m_y_offset(y_offset)
 	{ }
 
-	inline int32_t x_offset() const { return m_x_offset; }
-	inline int32_t y_offset() const { return m_y_offset; }
+	inline float x_offset() const { return m_x_offset; }
+	inline float y_offset() const { return m_y_offset; }
 
-	std::string to_str() const override
+	virtual std::string to_string() const override
 	{
 		std::stringstream ss;
-		ss << "[MouseScrollEvent] x_offset: " << m_x_offset << " y_offset: " << m_y_offset;
+		ss << "MouseScrolledEvent: x_offset = " << m_x_offset << " y_offet = " << m_y_offset;
 		return ss.str();
 	}
-
-	EVENT_TYPE(MouseScroll)
-	EVENT_CATEGORY(Mouse | Input)
-
 private:
-	int32_t m_x_offset;
-	int32_t m_y_offset;
+	float m_x_offset;
+	float m_y_offset;
 };
 
 class MouseButtonEvent : public Event {
 public:
-	int32_t mouse_button() { return m_button; }
+	EVENT_CLASS_CATEGORY(EventCategoryMouseButton | EventCategoryMouse | EventCategoryInput)
 
-	EVENT_CATEGORY(Mouse | MouseButton | Input)
-
+	inline int button() const { return m_button; }
 protected:
-	MouseButtonEvent(int32_t button)
+	MouseButtonEvent(int button)
 		: m_button(button)
 	{ }
 
-	int32_t m_button;
+	int m_button;
 };
 
-class MouseButtonPressEvent : public MouseButtonEvent {
+class DP_API MouseButtonPressedEvent : public MouseButtonEvent {
 public:
-	MouseButtonPressEvent(int32_t button)
+	EVENT_CLASS_TYPE(MouseButtonPressed)
+
+	MouseButtonPressedEvent(int button)
 		: MouseButtonEvent(button)
 	{ }
 
-	std::string to_str() const override
+	virtual std::string to_string() const override
 	{
 		std::stringstream ss;
-		ss << "[MouseButtonPressEvent] button: " << m_button;
-		ss.str();
+		ss << "MouseButtonPressedEvent: button = " << m_button;
+		return ss.str();
 	}
-
-	EVENT_TYPE(MouseButtonPress)
 };
 
-class MouseButtonReleaseEvent : public MouseButtonEvent {
+class DP_API MouseButtonReleasedEvent : public MouseButtonEvent {
 public:
-	MouseButtonReleaseEvent(int32_t button)
-			: MouseButtonEvent(button)
+	EVENT_CLASS_TYPE(MouseButtonReleased)
+
+	MouseButtonReleasedEvent(int button)
+		: MouseButtonEvent(button)
 	{ }
 
-	std::string to_str() const override
+	virtual std::string to_string() const override
 	{
 		std::stringstream ss;
-		ss << "[MouseButtonReleaseEvent] button: " << m_button;
-		ss.str();
+		ss << "MouseButtonReleasedEvent: button = " << m_button;
+		return ss.str();
 	}
-
-	EVENT_TYPE(MouseButtonRelease)
 };
+
 }
