@@ -5,8 +5,8 @@ set( CMAKE_CXX_STANDARD 20 )
 set( CMAKE_CXX_STANDARD_REQUIRED 1 )
 
 set( GAME_SOURCES
-	GameApp.cpp
-	GameLayer.cpp
+	game_app.cc
+	game_layer.cc
 )
 
 add_executable( game ${GAME_SOURCES} )

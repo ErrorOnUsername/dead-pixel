@@ -5,26 +5,26 @@ set( CMAKE_CXX_STANDARD 20 )
 set( CMAKE_CXX_STANDARD_REQUIRED 1 )
 
 set( CORE_SOURCES
-	Core/Application.cpp
-	Core/Layer.cpp
-	Core/LayerStack.cpp
-	Core/Log.cpp
+	core/application.cc
+	core/layer.cc
+	core/layer_stack.cc
+	core/log.cc
 )
 
 set( PLATFORM_SOURCES
-	Platform/Generic/GenericWindow.cpp
+	platform/generic/generic_window.cc
 )
 
 set( GFX_SOURCES
-	GFX/Camera.cpp
+	gfx/camera.cc
 )
 
 set( GL_GFX_SOURCES
-	GFX/OpenGL/GLBuffer.cpp
-	GFX/OpenGL/GLGraphicsContext.cpp
-	GFX/OpenGL/GLRenderer.cpp
-	GFX/OpenGL/GLShader.cpp
-	GFX/OpenGL/GLVertexArray.cpp
+	gfx/open_gl/gl_buffer.cc
+	gfx/open_gl/gl_graphics_context.cc
+	gfx/open_gl/gl_renderer.cc
+	gfx/open_gl/gl_shader.cc
+	gfx/open_gl/gl_vertex_array.cc
 )
 
 set( DEAD_PIXEL_SOURCES
