@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Core/Core.h>
-#include <Core/Layer.h>
-#include <Core/LayerStack.h>
-#include <Core/Memory.h>
-#include <Core/Window.h>
-#include <Events/ApplicationEvent.h>
+#include <core/core.hh>
+#include <core/layer.hh>
+#include <core/layer_stack.hh>
+#include <core/memory.hh>
+#include <core/window.hh>
+#include <events/application_event.hh>
 
 namespace DP {
 

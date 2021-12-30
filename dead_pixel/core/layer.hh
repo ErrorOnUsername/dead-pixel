@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Core/Core.h>
-#include <Events/Event.h>
+#include <core/core.hh>
+#include <events/event.hh>
 
 namespace DP {
 

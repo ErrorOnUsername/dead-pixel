@@ -1,6 +1,6 @@
 #include <glad/glad.h>
 
-#include <GFX/Renderer.h>
+#include <gfx/renderer.hh>
 
 namespace DP {
 

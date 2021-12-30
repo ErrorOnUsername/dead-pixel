@@ -1,9 +1,9 @@
-#include "Application.h"
+#include "application.hh"
 
-#include <Core/Memory.h>
-#include <Core/Window.h>
-#include <Events/ApplicationEvent.h>
-#include <Events/Event.h>
+#include <core/memory.hh>
+#include <core/window.hh>
+#include <events/application_event.hh>
+#include <events/event.hh>
 
 namespace DP {
 

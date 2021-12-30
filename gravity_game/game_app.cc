@@ -1,7 +1,7 @@
-#include <DeadPixel.h>
-#include <DeadPixelEntry.h>
+#include <dead_pixel.hh>
+#include <dead_pixel_entry.hh>
 
-#include <GameLayer.h>
+#include <game_layer.hh>
 
 class GameEntry : public DP::Application {
 public:

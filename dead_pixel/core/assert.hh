@@ -1,7 +1,7 @@
 #pragma once
 #include <signal.h>
 
-#include <Core/Log.h>
+#include <core/log.hh>
 
 #define _STRINGIFY_HELPER(x) #x
 #define _STRINGIFY(x) _STRINGIFY_HELPER(x)

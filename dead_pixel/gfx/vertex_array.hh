@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Core/Memory.h>
-#include <GFX/Buffer.h>
+#include <core/memory.hh>
+#include <gfx/buffer.hh>
 
 namespace DP {
 

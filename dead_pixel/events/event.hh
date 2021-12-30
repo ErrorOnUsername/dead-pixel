@@ -2,7 +2,7 @@
 #include <sstream>
 #include <functional>
 
-#include <Core/Core.h>
+#include <core/core.hh>
 
 namespace DP {
 

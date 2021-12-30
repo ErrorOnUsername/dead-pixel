@@ -4,7 +4,7 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
 
-#include <Core/Core.h>
+#include <core/core.hh>
 
 namespace DP {
 

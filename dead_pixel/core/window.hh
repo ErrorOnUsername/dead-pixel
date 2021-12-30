@@ -3,9 +3,9 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-#include <Core/Core.h>
-#include <Events/Event.h>
-#include <GFX/GraphicsContext.h>
+#include <core/core.hh>
+#include <events/event.hh>
+#include <gfx/graphics_context.hh>
 
 namespace DP {
 

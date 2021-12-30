@@ -1,6 +1,6 @@
 #pragma once
 
-#include <DeadPixel.h>
+#include <dead_pixel.hh>
 
 class GameLayer : public DP::Layer {
 public:

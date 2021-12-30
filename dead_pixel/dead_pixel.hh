@@ -3,16 +3,16 @@
 // Single include file for apps based on DeadPixel
 //
 
-#include <Core/Application.h>
-#include <Core/Layer.h>
-#include <Core/Log.h>
-#include <Core/Memory.h>
-#include <Events/ApplicationEvent.h>
-#include <Events/Event.h>
-#include <Events/KeyEvent.h>
-#include <Events/MouseEvent.h>
-#include <GFX/Buffer.h>
-#include <GFX/Camera.h>
-#include <GFX/Renderer.h>
-#include <GFX/Shader.h>
-#include <GFX/VertexArray.h>
+#include <core/application.hh>
+#include <core/layer.hh>
+#include <core/log.hh>
+#include <core/memory.hh>
+#include <events/application_event.hh>
+#include <events/event.hh>
+#include <events/key_event.hh>
+#include <events/mouse_event.hh>
+#include <gfx/buffer.hh>
+#include <gfx/camera.hh>
+#include <gfx/renderer.hh>
+#include <gfx/shader.hh>
+#include <gfx/vertex_array.hh>

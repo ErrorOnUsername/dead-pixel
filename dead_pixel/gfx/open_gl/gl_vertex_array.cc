@@ -1,6 +1,6 @@
 #include <glad/glad.h>
 
-#include <GFX/VertexArray.h>
+#include <gfx/vertex_array.hh>
 
 namespace DP {
 

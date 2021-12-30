@@ -1,9 +1,9 @@
-#include <Core/Assert.h>
-#include <Core/Log.h>
-#include <Core/Window.h>
-#include <Events/ApplicationEvent.h>
-#include <Events/KeyEvent.h>
-#include <Events/MouseEvent.h>
+#include <core/assert.hh>
+#include <core/log.hh>
+#include <core/window.hh>
+#include <events/application_event.hh>
+#include <events/key_event.hh>
+#include <events/mouse_event.hh>
 
 namespace DP {
 

@@ -2,9 +2,9 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-#include <Core/Assert.h>
-#include <Core/Log.h>
-#include <GFX/GraphicsContext.h>
+#include <core/assert.hh>
+#include <core/log.hh>
+#include <gfx/graphics_context.hh>
 
 namespace DP {
 

@@ -2,8 +2,8 @@
 
 #include <glm/glm.hpp>
 
-#include <Core/Memory.h>
-#include <GFX/VertexArray.h>
+#include <core/memory.hh>
+#include <gfx/vertex_array.hh>
 
 namespace DP {
 

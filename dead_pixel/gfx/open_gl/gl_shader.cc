@@ -2,9 +2,9 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include <Core/Assert.h>
-#include <Core/Log.h>
-#include <GFX/Shader.h>
+#include <core/assert.hh>
+#include <core/log.hh>
+#include <gfx/shader.hh>
 
 namespace DP {
 

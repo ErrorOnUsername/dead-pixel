@@ -1,4 +1,4 @@
-#include "GameLayer.h"
+#include "game_layer.hh"
 
 #include <glm/gtc/matrix_transform.hpp>
 

@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 
-#include <Core/Core.h>
-#include <Core/Layer.h>
+#include <core/core.hh>
+#include <core/layer.hh>
 
 namespace DP {
 
