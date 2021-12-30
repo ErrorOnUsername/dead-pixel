@@ -1,6 +1,6 @@
 #include "Application.h"
 
-#include <dppch.h>
+#include <Core/Memory.h>
 #include <Core/Window.h>
 #include <Events/ApplicationEvent.h>
 #include <Events/Event.h>
@@ -9,7 +9,7 @@ namespace DP {
 
 Application::Application()
 {
-	m_window = std::unique_ptr<Window>(Window::create());
+	m_window = make_own_ptr<Window>();
 	m_window->set_event_callback(std::bind(&Application::on_event,
 	                                       this,
 	                                       std::placeholders::_1));
@@ -25,9 +25,9 @@ void Application::on_event(Event& e)
 	                                                std::placeholders::_1));
 
 	for(auto it = m_layer_stack.end(); it != m_layer_stack.begin(); ) {
-		(*--it)->on_event(e);
 		if(e.handled())
 			break;
+		(*--it)->on_event(e);
 	}
 }
 
@@ -35,8 +35,13 @@ void Application::run()
 {
 	m_running = true;
 	while(m_running) {
+
+		float time = (float)glfwGetTime();
+		float delta_time = time - m_last_time;
+		m_last_time = time;
+
 		for(auto* layer : m_layer_stack)
-			layer->on_update();
+			layer->on_update(delta_time);
 
 		m_window->on_update();
 	}

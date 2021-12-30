@@ -1,18 +1,11 @@
-#include "GenericWindow.h"
-
-#include <dppch.h>
 #include <Core/Assert.h>
+#include <Core/Log.h>
 #include <Core/Window.h>
 #include <Events/ApplicationEvent.h>
 #include <Events/KeyEvent.h>
 #include <Events/MouseEvent.h>
 
 namespace DP {
-
-Window* Window::create(WindowProperties const& properties)
-{
-	return new GenericWindow(properties);
-}
 
 static bool s_is_glfw_initialized = false;
 
@@ -21,7 +14,7 @@ static void glfw_error_callback(int error, char const* description)
 	DP_ENGINE_ERROR("GLFW Error [{0}]: {1}", error, description);
 }
 
-GenericWindow::GenericWindow(WindowProperties const& properties)
+Window::Window(WindowProperties const& properties)
 {
 	DP_ENGINE_INFO("Creating window {0} ({1} X {2})",
 	               properties.title,
@@ -39,14 +32,22 @@ GenericWindow::GenericWindow(WindowProperties const& properties)
 		s_is_glfw_initialized = true;
 	}
 
+#ifdef __APPLE__
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#endif
+
 	m_window = glfwCreateWindow((int)properties.width,
 	                            (int)properties.height,
 	                            properties.title,
 	                            nullptr,
 	                            nullptr);
-	glfwMakeContextCurrent(m_window);
-	glfwSetWindowUserPointer(m_window, &m_data);
+
+	m_graphics_context = new GraphicsContext(m_window);
 	set_is_vsync_enabled(true);
+
+	glfwSetWindowUserPointer(m_window, &m_data);
 
 	glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
@@ -117,18 +118,19 @@ GenericWindow::GenericWindow(WindowProperties const& properties)
 	glfwSetErrorCallback(glfw_error_callback);
 }
 
-GenericWindow::~GenericWindow()
+Window::~Window()
 {
 	glfwDestroyWindow(m_window);
+	delete m_graphics_context;
 }
 
-void GenericWindow::on_update()
+void Window::on_update()
 {
 	glfwPollEvents();
-	glfwSwapBuffers(m_window);
+	m_graphics_context->swap_buffers();
 }
 
-void GenericWindow::set_is_vsync_enabled(bool enabled)
+void Window::set_is_vsync_enabled(bool enabled)
 {
 	if(enabled)
 		glfwSwapInterval(1);

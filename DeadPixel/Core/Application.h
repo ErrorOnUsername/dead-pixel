@@ -3,6 +3,7 @@
 #include <Core/Core.h>
 #include <Core/Layer.h>
 #include <Core/LayerStack.h>
+#include <Core/Memory.h>
 #include <Core/Window.h>
 #include <Events/ApplicationEvent.h>
 
@@ -18,11 +19,14 @@ public:
 
 	void push_layer(Layer*);
 	void push_overlay(Layer*);
+
 private:
 	bool on_window_close(WindowCloseEvent&);
 
-	std::unique_ptr<Window> m_window;
+	OwnPtr<Window> m_window;
+
 	bool m_running;
+	float m_last_time;
 
 	LayerStack m_layer_stack;
 };

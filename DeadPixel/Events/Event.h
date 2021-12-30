@@ -1,6 +1,7 @@
 #pragma once
+#include <sstream>
+#include <functional>
 
-#include <dppch.h>
 #include <Core/Core.h>
 
 namespace DP {

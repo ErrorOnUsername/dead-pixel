@@ -1,6 +1,6 @@
 #pragma once
+#include <vector>
 
-#include <dppch.h>
 #include <Core/Core.h>
 #include <Core/Layer.h>
 

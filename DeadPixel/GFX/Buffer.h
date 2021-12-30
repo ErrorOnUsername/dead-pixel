@@ -1,6 +1,6 @@
 #pragma once
+#include <vector>
 
-#include <dppch.h>
 #include <Core/Assert.h>
 
 namespace DP {
@@ -11,6 +11,23 @@ enum class ShaderDataType {
 	Float, Float2, Float3, Float4,
 	Mat3,  Mat4
 };
+
+static uint32_t shader_data_type_size(ShaderDataType data_type)
+{
+	switch(data_type) {
+		case ShaderDataType::Bool:   return 1;
+		case ShaderDataType::Int:    return 4;
+		case ShaderDataType::Int2:   return 4*2;
+		case ShaderDataType::Int3:   return 4*3;
+		case ShaderDataType::Int4:   return 4*4;
+		case ShaderDataType::Float:  return 4;
+		case ShaderDataType::Float2: return 4*2;
+		case ShaderDataType::Float3: return 4*3;
+		case ShaderDataType::Float4: return 4*4;
+		case ShaderDataType::Mat3:   return 4*3*3;
+		case ShaderDataType::Mat4:   return 4*4*4;
+	}
+}
 
 struct BufferElement {
 	char const*    name;
@@ -25,6 +42,8 @@ struct BufferElement {
 	              bool normalized = false)
 		: name(uniform_name)
 		, type(data_type)
+		, size(shader_data_type_size(data_type))
+		, offset(0)
 		, is_normalized(normalized)
 	{ }
 
@@ -58,23 +77,23 @@ struct BufferLayout {
 	BufferLayout() { };
 	BufferLayout(std::initializer_list<BufferElement> initializer_elements)
 		: elements(initializer_elements)
-	{ }
+	{
+		calculate_offsets_and_stride();
+	}
 private:
 	void calculate_offsets_and_stride()
 	{
-		size_t offset = 0;
 		stride = 0;
 
 		for(auto& element : elements) {
-			element.offset = offset;
-			offset += element.size;
+			element.offset = stride;
 			stride += element.size;
 		}
 	}
 };
 
 struct VertexBuffer {
-	uint32_t     buffer_id; // TODO: Find out if this applies in Vulkan as well
+	uint32_t     buffer_id;
 	BufferLayout buffer_layout;
 
 	VertexBuffer(uint32_t size);

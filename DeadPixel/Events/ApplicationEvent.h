@@ -1,6 +1,6 @@
 #pragma once
+#include <sstream>
 
-#include <dppch.h>
 #include <Core/Core.h>
 #include <Events/Event.h>
 

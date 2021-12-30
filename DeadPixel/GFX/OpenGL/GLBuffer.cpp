@@ -10,14 +10,14 @@ namespace DP {
 
 VertexBuffer::VertexBuffer(uint32_t size)
 {
-	glCreateBuffers(1, &buffer_id);
+	glGenBuffers(1, &buffer_id);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 }
 
 VertexBuffer::VertexBuffer(float* vertices, uint32_t size)
 {
-	glCreateBuffers(1, &buffer_id);
+	glGenBuffers(1, &buffer_id);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 }
@@ -50,7 +50,7 @@ void VertexBuffer::set_data(void const* data, uint32_t size)
 IndexBuffer::IndexBuffer(uint32_t* indices, uint32_t size)
 	: count(size)
 {
-	glCreateBuffers(1, &buffer_id);
+	glGenBuffers(1, &buffer_id);
 
 	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
 	glBufferData(GL_ARRAY_BUFFER,
