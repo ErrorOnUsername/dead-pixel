@@ -17,6 +17,8 @@ set( PLATFORM_SOURCES
 
 set( GFX_SOURCES
 	gfx/camera.cc
+	gfx/ui/ui.cc
+	gfx/ui/ui_renderer.cc
 )
 
 set( GL_GFX_SOURCES
@@ -35,5 +37,6 @@ set( DEAD_PIXEL_SOURCES
 )
 
 add_compile_definitions( DP_BUILD )
+
 add_library( dead_pixel ${DEAD_PIXEL_SOURCES} )
 target_link_libraries( dead_pixel glfw glad )

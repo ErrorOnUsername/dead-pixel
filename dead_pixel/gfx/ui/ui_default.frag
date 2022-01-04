@@ -1,7 +1,6 @@
-#version 460
+#version 400 core
 
 in vec4 pass_color;
-in vec2 pass_tex_coords;
 
 out vec4 out_color;
 

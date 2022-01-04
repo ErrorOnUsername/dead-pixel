@@ -24,9 +24,10 @@ void Renderer::disable_depth()
 	glDisable(GL_DEPTH_TEST);
 }
 
-void Renderer::draw_indexed(RefPtr<VertexArray> const& vertex_array)
+void Renderer::draw_indexed(RefPtr<VertexArray> const& vertex_array, size_t index_count)
 {
-	glDrawElements(GL_TRIANGLES, vertex_array->index_buffer->count, GL_UNSIGNED_INT, 0);
+	size_t count = (index_count == 0) ? vertex_array->index_buffer->count : index_count;
+	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
 }
 
 }

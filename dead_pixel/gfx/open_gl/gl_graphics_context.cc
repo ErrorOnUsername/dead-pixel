@@ -24,6 +24,8 @@ GraphicsContext::GraphicsContext(void* window)
 	DP_ENGINE_INFO("    Version:  {0}", glGetString(GL_VERSION));
 	DP_ENGINE_INFO("    Renderer: {0}", glGetString(GL_RENDERER));
 
+	ASSERT(GLVersion.major >= 4, "DeadPixel requires a mimimum of OpenGL 4.0!");
+
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

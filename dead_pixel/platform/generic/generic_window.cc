@@ -16,10 +16,10 @@ static void glfw_error_callback(int error, char const* description)
 
 Window::Window(WindowProperties const& properties)
 {
-	DP_ENGINE_INFO("Creating window {0} ({1} X {2})",
-	               properties.title,
-	               properties.width,
-	               properties.height);
+	DP_ENGINE_TRACE("Creating window \"{0}\" ({1} X {2})",
+	                properties.title,
+	                properties.width,
+	                properties.height);
 
 	m_data.title = properties.title;
 	m_data.width = properties.width;
@@ -33,8 +33,8 @@ Window::Window(WindowProperties const& properties)
 	}
 
 #ifdef __APPLE__
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
