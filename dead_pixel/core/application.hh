@@ -11,6 +11,8 @@ namespace DP {
 
 class DP_API Application {
 public:
+	static void* current_window;
+
 	Application();
 	virtual ~Application();
 

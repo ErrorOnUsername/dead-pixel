@@ -27,6 +27,8 @@ void Renderer::disable_depth()
 void Renderer::draw_indexed(RefPtr<VertexArray> const& vertex_array, size_t index_count)
 {
 	size_t count = (index_count == 0) ? vertex_array->index_buffer->count : index_count;
+
+	vertex_array->bind();
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
 }
 

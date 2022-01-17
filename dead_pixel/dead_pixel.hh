@@ -4,6 +4,9 @@
 //
 
 #include <core/application.hh>
+#include <core/input.hh>
+#include <core/keycode.hh>
+#include <core/mouse_code.hh>
 #include <core/layer.hh>
 #include <core/log.hh>
 #include <core/memory.hh>

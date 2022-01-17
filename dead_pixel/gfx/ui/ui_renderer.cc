@@ -112,7 +112,6 @@ void UIRenderer::flush()
 	vertex_buffer->set_data(temp_vertices, size);
 
 	shader->bind();
-	vertex_array->bind();
 	Renderer::draw_indexed(vertex_array, running_index_count);
 }
 

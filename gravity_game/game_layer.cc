@@ -5,7 +5,7 @@
 GameLayer::GameLayer()
 	: Layer("GameLayer")
 	, m_camera(1280.0f / 1024.0f)
-	, m_ui_camera(0.0f, 1280.0f, 1024.0f, 0.0f)
+	, m_ui_camera(0.0f, 1280.0f, 0.0f, 1024.0f)
 	, m_cube_transform(1.0f)
 	, m_cube_rotation(0.0f)
 {
@@ -81,18 +81,17 @@ void GameLayer::on_update(float delta_time)
 {
 	DP::Renderer::clear();
 	m_cube_transform = glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, -5.0f});
-	m_cube_transform = glm::rotate(m_cube_transform, m_cube_rotation, {1.0f, 0.0f, 1.0f});
+	m_cube_transform = glm::rotate(m_cube_transform, m_cube_rotation, {1.0f, 1.0f, 0.0f});
 
 	m_shader->bind();
 	m_shader->set_uniform_mat4("u_pv_matrix", m_camera.pv_matrix);
 	m_shader->set_uniform_mat4("u_transform_matrix", m_cube_transform);
 
-	m_vertex_array->bind();
 	DP::Renderer::draw_indexed(m_vertex_array);
 
 	DP::UI::UIRenderer::begin(m_ui_camera);
-	DP::UI::UIRenderer::fill_rect({300.0f, 300.0f, 0.0f}, {100.0f, 200.0f}, {0.5f, 1.0f, 0.5f, 1.0f});
-	DP::UI::UIRenderer::fill_rect({400.0f, 500.0f, 0.0f}, {220.0f, 170.0f}, {1.0f, 0.5f, 0.5f, 1.0f});
+	DP::UI::UIRenderer::fill_rect({300.0f, 300.0f, 0.0f}, {100.0f, 200.0f}, {0.9f, 0.2f, 0.2f, 1.0f});
+	DP::UI::UIRenderer::fill_rect({400.0f, 500.0f, 0.0f}, {220.0f, 170.0f}, {0.4f, 1.0f, 1.0f, 1.0f});
 	DP::UI::UIRenderer::end();
 
 	m_cube_rotation += 1.0f * delta_time;

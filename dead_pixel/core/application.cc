@@ -7,12 +7,15 @@
 
 namespace DP {
 
+void* Application::current_window = nullptr;
+
 Application::Application()
 {
 	m_window = make_own_ptr<Window>();
 	m_window->set_event_callback(std::bind(&Application::on_event,
 	                                       this,
 	                                       std::placeholders::_1));
+	current_window = m_window->window_handle;
 }
 
 Application::~Application() {}

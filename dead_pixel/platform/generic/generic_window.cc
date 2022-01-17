@@ -38,18 +38,18 @@ Window::Window(WindowProperties const& properties)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
-	m_window = glfwCreateWindow((int)properties.width,
+	window_handle = glfwCreateWindow((int)properties.width,
 	                            (int)properties.height,
 	                            properties.title,
 	                            nullptr,
 	                            nullptr);
 
-	m_graphics_context = new GraphicsContext(m_window);
+	m_graphics_context = new GraphicsContext(window_handle);
 	set_is_vsync_enabled(true);
 
-	glfwSetWindowUserPointer(m_window, &m_data);
+	glfwSetWindowUserPointer(window_handle, &m_data);
 
-	glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
+	glfwSetWindowSizeCallback(window_handle, [](GLFWwindow* window, int width, int height) {
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 		data->width = width;
 		data->height = height;
@@ -58,13 +58,13 @@ Window::Window(WindowProperties const& properties)
 		data->event_callback(e);
 	});
 
-	glfwSetWindowCloseCallback(m_window, [] (GLFWwindow* window) {
+	glfwSetWindowCloseCallback(window_handle, [] (GLFWwindow* window) {
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 		WindowCloseEvent e;
 		data->event_callback(e);
 	});
 
-	glfwSetKeyCallback(m_window, [] (GLFWwindow* window, int key, int scancode, int action, int mods) {
+	glfwSetKeyCallback(window_handle, [] (GLFWwindow* window, int key, int scancode, int action, int mods) {
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 
 		switch(action) {
@@ -86,7 +86,7 @@ Window::Window(WindowProperties const& properties)
 		}
 	});
 
-	glfwSetMouseButtonCallback(m_window, [] (GLFWwindow* window, int button, int action, int mods) {
+	glfwSetMouseButtonCallback(window_handle, [] (GLFWwindow* window, int button, int action, int mods) {
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 
 		switch(action) {
@@ -103,13 +103,13 @@ Window::Window(WindowProperties const& properties)
 		}
 	});
 
-	glfwSetScrollCallback(m_window, [] (GLFWwindow* window, double x_offset, double y_offset) {
+	glfwSetScrollCallback(window_handle, [] (GLFWwindow* window, double x_offset, double y_offset) {
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 		MouseScrolledEvent e((float)x_offset, (float)y_offset);
 		data->event_callback(e);
 	});
 
-	glfwSetCursorPosCallback(m_window, [] (GLFWwindow* window, double x_position, double y_position) {
+	glfwSetCursorPosCallback(window_handle, [] (GLFWwindow* window, double x_position, double y_position) {
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 		MouseMovedEvent e(x_position, y_position);
 		data->event_callback(e);
@@ -120,7 +120,7 @@ Window::Window(WindowProperties const& properties)
 
 Window::~Window()
 {
-	glfwDestroyWindow(m_window);
+	glfwDestroyWindow(window_handle);
 	delete m_graphics_context;
 }
 

@@ -7,7 +7,7 @@
 
 namespace DP::UI {
 
-struct UIWindow {
+struct Panel {
 	glm::vec2 position;
 	float     width;
 	float     height;

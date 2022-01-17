@@ -12,6 +12,7 @@ set( CORE_SOURCES
 )
 
 set( PLATFORM_SOURCES
+	platform/generic/generic_input.cc
 	platform/generic/generic_window.cc
 )
 

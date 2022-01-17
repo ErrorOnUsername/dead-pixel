@@ -39,6 +39,8 @@ class DP_API Window {
 	};
 
 public:
+	GLFWwindow* window_handle;
+
 	Window(WindowProperties const& window_properties = WindowProperties());
 	~Window();
 
@@ -51,7 +53,6 @@ public:
 
 	void set_event_callback(EventCallback const& callback) { m_data.event_callback = callback; }
 private:
-	GLFWwindow* m_window;
 	GraphicsContext* m_graphics_context;
 
 	WindowData m_data;

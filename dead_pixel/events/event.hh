@@ -15,7 +15,7 @@ enum class EventType {
 
 enum EventCategory {
 	None = 0,
-	EventCategoryApplication = 0b00000,
+	EventCategoryApplication = 0b00001,
 	EventCategoryInput       = 0b00010,
 	EventCategoryKeyboard    = 0b00100,
 	EventCategoryMouse       = 0b01000,
