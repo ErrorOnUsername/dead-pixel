@@ -22,10 +22,10 @@ static constexpr uint32_t MAX_VERTEX_COUNT = MAX_QUAD_COUNT * QUAD_VERTEX_COUNT;
 static constexpr uint32_t MAX_INDEX_COUNT  = MAX_QUAD_COUNT * 6;
 
 glm::vec4 quad_vertices[4] = {
-	{ -0.5f, -0.5f, 0.0f, 1.0f },
-	{  0.5f, -0.5f, 0.0f, 1.0f },
-	{  0.5f,  0.5f, 0.0f, 1.0f },
-	{ -0.5f,  0.5f, 0.0f, 1.0f }
+	{ 0.0f, 0.0f, 0.0f, 1.0f },
+	{ 1.0f, 0.0f, 0.0f, 1.0f },
+	{ 1.0f, 1.0f, 0.0f, 1.0f },
+	{ 0.0f, 1.0f, 0.0f, 1.0f }
 };
 
 RefPtr<VertexArray>  vertex_array;

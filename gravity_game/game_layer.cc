@@ -89,10 +89,8 @@ void GameLayer::on_update(float delta_time)
 
 	DP::Renderer::draw_indexed(m_vertex_array);
 
-	DP::UI::UIRenderer::begin(m_ui_camera);
-	DP::UI::UIRenderer::fill_rect({300.0f, 300.0f, 0.0f}, {100.0f, 200.0f}, {0.9f, 0.2f, 0.2f, 1.0f});
-	DP::UI::UIRenderer::fill_rect({400.0f, 500.0f, 0.0f}, {220.0f, 170.0f}, {0.4f, 1.0f, 1.0f, 1.0f});
-	DP::UI::UIRenderer::end();
+	DP::UI::begin_panel("test", m_ui_camera, DP::UI::Layout::Vertical);
+	DP::UI::end_panel();
 
 	m_cube_rotation += 1.0f * delta_time;
 }

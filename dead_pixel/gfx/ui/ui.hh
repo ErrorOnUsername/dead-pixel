@@ -8,9 +8,10 @@
 namespace DP::UI {
 
 struct Panel {
-	glm::vec2 position;
-	float     width;
-	float     height;
+	size_t      id;
+	char const* name;
+	glm::vec2   position;
+	glm::vec2   size;
 };
 
 enum class Layout {
@@ -20,10 +21,10 @@ enum class Layout {
 
 void set_theme(UITheme*);
 
-void begin(char const* name, OrthographicCamera const&, Layout);
+void begin_panel(char const* panel_name, OrthographicCamera const&, Layout);
 void begin_child(char const* name, Layout);
 void end_child();
-void end();
+void end_panel();
 
 bool button(char const* label);
 
