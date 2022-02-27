@@ -22,6 +22,8 @@ struct PersectiveCamera {
 	                 , float far_plane  = 1000.0f
 	                 , float fov        = 90.0f);
 
+	void set_position(float x, float y, float z);
+
 private:
 	void recalculate_view();
 };

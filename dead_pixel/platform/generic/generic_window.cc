@@ -21,9 +21,9 @@ Window::Window(WindowProperties const& properties)
 	                properties.width,
 	                properties.height);
 
-	m_data.title = properties.title;
-	m_data.width = properties.width;
-	m_data.height = properties.height;
+	data.title  = properties.title;
+	data.width  = properties.width;
+	data.height = properties.height;
 
 	if(!s_is_glfw_initialized) {
 		int init_status = glfwInit();
@@ -44,15 +44,15 @@ Window::Window(WindowProperties const& properties)
 	                            nullptr,
 	                            nullptr);
 
-	m_graphics_context = new GraphicsContext(window_handle);
+	graphics_context = new GraphicsContext(window_handle);
 	set_is_vsync_enabled(true);
 
-	glfwSetWindowUserPointer(window_handle, &m_data);
+	glfwSetWindowUserPointer(window_handle, &data);
 
 	glfwSetWindowSizeCallback(window_handle, [](GLFWwindow* window, int width, int height) {
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-		data->width = width;
-		data->height = height;
+		data->width      = width;
+		data->height     = height;
 
 		WindowResizeEvent e(width, height);
 		data->event_callback(e);
@@ -121,13 +121,13 @@ Window::Window(WindowProperties const& properties)
 Window::~Window()
 {
 	glfwDestroyWindow(window_handle);
-	delete m_graphics_context;
+	delete graphics_context;
 }
 
 void Window::on_update()
 {
 	glfwPollEvents();
-	m_graphics_context->swap_buffers();
+	graphics_context->swap_buffers();
 }
 
 void Window::set_is_vsync_enabled(bool enabled)
@@ -137,7 +137,7 @@ void Window::set_is_vsync_enabled(bool enabled)
 	else
 		glfwSwapInterval(0);
 
-	m_data.is_vsync_enabled = enabled;
+	data.is_vsync_enabled = enabled;
 }
 
 }

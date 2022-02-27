@@ -9,9 +9,15 @@
 
 namespace DP {
 
-class DP_API Application {
-public:
+struct Application {
+	using EventCallback = std::function<void(Event&)>;
+
 	static void* current_window;
+
+	OwnPtr<Window> window;
+	LayerStack     layer_stack;
+	bool           running;
+	float          last_frame_time;
 
 	Application();
 	virtual ~Application();
@@ -22,15 +28,7 @@ public:
 	void push_layer(Layer*);
 	void push_overlay(Layer*);
 
-private:
 	bool on_window_close(WindowCloseEvent&);
-
-	OwnPtr<Window> m_window;
-
-	bool m_running;
-	float m_last_time;
-
-	LayerStack m_layer_stack;
 };
 
 }

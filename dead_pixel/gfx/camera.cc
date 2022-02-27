@@ -29,6 +29,14 @@ void PersectiveCamera::adjust_bounds(float aspect_ratio
 	recalculate_view();
 }
 
+void PersectiveCamera::set_position(float x, float y, float z)
+{
+	position.x = x;
+	position.y = y;
+	position.z = z;
+	recalculate_view();
+}
+
 void PersectiveCamera::recalculate_view()
 {
 	view_matrix = glm::translate(glm::mat4(1.0f), position);

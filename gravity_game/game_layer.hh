@@ -6,8 +6,10 @@ class GameLayer : public DP::Layer {
 public:
 	GameLayer();
 
-	virtual void on_update(float delta_time) override;
-	virtual void on_event(DP::Event&) override;
+	void on_update(float delta_time) override;
+	void on_event(DP::Event&) override;
+
+	bool on_mouse_scrolled(DP::MouseScrolledEvent&);
 
 	DP::RefPtr<DP::VertexArray> m_vertex_array;
 	DP::RefPtr<DP::Shader> m_shader;
@@ -16,4 +18,5 @@ public:
 	DP::OrthographicCamera m_ui_camera;
 	glm::mat4              m_cube_transform;
 	float                  m_cube_rotation;
+	float                  m_zoom;
 };
