@@ -13,4 +13,10 @@ for it yet, so it's tentatively called "gravity game"
 - [X] VAOs, VBOs, and IBOs
 - [X] Shaders
 - [X] Spinning Cube (primitive diffused lighting)
+- [ ] Textures
+- [ ] Text Rendering
 - [ ] Simple UI library
+- [ ] Basic Editor UI
+- [ ] Entity System
+- [ ] Lighting
+- [ ] Shadows
