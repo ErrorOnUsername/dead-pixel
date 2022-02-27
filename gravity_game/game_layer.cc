@@ -9,44 +9,44 @@ GameLayer::GameLayer()
 	, m_cube_transform(1.0f)
 	, m_cube_rotation(0.0f)
 {
-	m_vertex_array = DP::make_ref_ptr<DP::VertexArray>();
+	m_vertex_array = DP::VertexArray::create();
 
-	float vertices[4*4*6] = {
+	float vertices[7 * 4 * 6] = {
 		// BACK
-		-0.5f, -0.5f, -0.5f, 1.0f,
-		 0.5f, -0.5f, -0.5f, 1.0f,
-		 0.5f,  0.5f, -0.5f, 1.0f,
-		-0.5f,  0.5f, -0.5f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, -1.0f,
+		 0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f, -1.0f,
 
 		// FRONT
-		-0.5f, -0.5f,  0.5f, 1.0f,
-		 0.5f, -0.5f,  0.5f, 1.0f,
-		 0.5f,  0.5f,  0.5f, 1.0f,
-		-0.5f,  0.5f,  0.5f, 1.0f,
+		-0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 1.0f,
 
 		// LEFT
-		-0.5f, -0.5f, -0.5f, 1.0f,
-		-0.5f, -0.5f,  0.5f, 1.0f,
-		-0.5f,  0.5f,  0.5f, 1.0f,
-		-0.5f,  0.5f, -0.5f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 1.0f, -1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f, 1.0f, -1.0f, 0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f, 1.0f, -1.0f, 0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f, 1.0f, -1.0f, 0.0f, 0.0f,
 
 		// RIGHT
-		 0.5f, -0.5f,  0.5f, 1.0f,
-		 0.5f, -0.5f, -0.5f, 1.0f,
-		 0.5f,  0.5f, -0.5f, 1.0f,
-		 0.5f,  0.5f,  0.5f, 1.0f,
+		 0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 0.0f, 0.0f,
 
 		// TOP
-		-0.5f,  0.5f,  0.5f, 1.0f,
-		 0.5f,  0.5f,  0.5f, 1.0f,
-		 0.5f,  0.5f, -0.5f, 1.0f,
-		-0.5f,  0.5f, -0.5f, 1.0f,
+		-0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 0.0f,
 
 		// BOTTOM
-		-0.5f, -0.5f, -0.5f, 1.0f,
-		 0.5f, -0.5f, -0.5f, 1.0f,
-		 0.5f, -0.5f,  0.5f, 1.0f,
-		-0.5f, -0.5f,  0.5f, 1.0f
+		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, -1.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f, 1.0f, 0.0f, -1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f, 1.0f, 0.0f, -1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f, 1.0f, 0.0f, -1.0f, 0.0f
 	};
 
 	uint32_t indices[6*6] = {
@@ -58,23 +58,25 @@ GameLayer::GameLayer()
 		20, 21, 22, 22, 23, 20,
 	};
 
-	DP::RefPtr<DP::VertexBuffer> vertex_buffer = DP::make_ref_ptr<DP::VertexBuffer>(vertices, sizeof(vertices));
+	auto vertex_buffer = DP::VertexBuffer::create(vertices, sizeof(vertices));
 	DP::BufferLayout buffer_layout = {
 		{ DP::ShaderDataType::Float3, "in_position" },
 		{ DP::ShaderDataType::Float,  "in_color" },
+		{ DP::ShaderDataType::Float3,  "in_normal" },
 	};
 	vertex_buffer->buffer_layout = buffer_layout;
 	m_vertex_array->add_vertex_buffer(vertex_buffer);
 
-	DP::RefPtr<DP::IndexBuffer> index_buffer = DP::make_ref_ptr<DP::IndexBuffer>(indices, sizeof(indices) / sizeof(uint32_t));
+	auto index_buffer = DP::IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t));
 	m_vertex_array->set_index_buffer(index_buffer);
 
-	m_shader = DP::make_ref_ptr<DP::Shader>("gravity_game/assets/shaders/basic_cube.vert"
-	                                      , "gravity_game/assets/shaders/basic_cube.frag");
-
-	DP::UI::UIRenderer::init();
+	m_shader = DP::Shader::create("gravity_game/assets/shaders/basic_cube.vert"
+	                            , "gravity_game/assets/shaders/basic_cube.frag");
 
 	DP::Renderer::set_clear_color(0.0f, 0.0f, 0.0f, 1.0f);
+	//DP::UI::UIRenderer::init();
+
+	m_shader->set_uniform_vec3("u_light_position", glm::vec3(-1.0f, 1.0f, 0.0f));
 }
 
 void GameLayer::on_update(float delta_time)
@@ -89,10 +91,11 @@ void GameLayer::on_update(float delta_time)
 
 	DP::Renderer::draw_indexed(m_vertex_array);
 
-	DP::UI::begin_panel("test", m_ui_camera, DP::UI::FP_DEFAULTS);
-	DP::UI::end_panel();
+	// TODO: Keep working on this when you feel like it
+	//DP::UI::begin_panel("test", m_ui_camera, DP::UI::FP_DEFAULTS);
+	//DP::UI::end_panel();
 
-	m_cube_rotation += 1.0f * delta_time;
+	m_cube_rotation += 0.75f * delta_time;
 }
 
 void GameLayer::on_event(DP::Event& e) { }

@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
+#include <core/memory.hh>
+
 namespace DP {
 
 struct Shader {
@@ -15,6 +17,16 @@ struct Shader {
 	Shader(char const* vert_filepath, char const* frag_filepath);
 
 	~Shader();
+
+	static RefPtr<Shader> create(char const* shader_name, char const* vert_source, char const* frag_source)
+	{
+		return make_ref_ptr<Shader>(shader_name, vert_source, frag_source);
+	}
+
+	static RefPtr<Shader> create(char const* vert_filepath, char const* frag_filepath)
+	{
+		return make_ref_ptr<Shader>(vert_filepath, frag_filepath);
+	}
 
 	void        compile_code(char const* vert_source, char const* frag_source);
 	char const* read_file   (char const* filepath);

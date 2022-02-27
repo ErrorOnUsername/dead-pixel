@@ -14,6 +14,8 @@ struct VertexArray {
 	VertexArray ();
 	~VertexArray();
 
+	static RefPtr<VertexArray> create() { return make_ref_ptr<VertexArray>(); }
+
 	void bind  ();
 	void unbind();
 

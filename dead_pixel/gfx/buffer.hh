@@ -2,6 +2,7 @@
 #include <vector>
 
 #include <core/assert.hh>
+#include <core/memory.hh>
 
 namespace DP {
 
@@ -100,6 +101,16 @@ struct VertexBuffer {
 	VertexBuffer(float* vertices, uint32_t size);
 	~VertexBuffer();
 
+	static RefPtr<VertexBuffer> create(uint32_t size)
+	{
+		return make_ref_ptr<VertexBuffer>(size);
+	}
+
+	static RefPtr<VertexBuffer> create(float* vertices, uint32_t size)
+	{
+		return make_ref_ptr<VertexBuffer>(vertices, size);
+	}
+
 	void bind  () const;
 	void unbind() const;
 
@@ -110,8 +121,13 @@ struct IndexBuffer {
 	uint32_t buffer_id;
 	uint32_t count;
 
-	IndexBuffer(uint32_t* vertices, uint32_t size);
+	IndexBuffer(uint32_t* indices, uint32_t size);
 	~IndexBuffer();
+
+	static RefPtr<IndexBuffer> create(uint32_t* indices, uint32_t size)
+	{
+		return make_ref_ptr<IndexBuffer>(indices, size);
+	}
 
 	void bind  () const;
 	void unbind() const;
