@@ -75,7 +75,6 @@ GameLayer::GameLayer()
 	                            , "gravity_game/assets/shaders/basic_cube.frag");
 
 	DP::Renderer::set_clear_color(0.0f, 0.0f, 0.0f, 1.0f);
-	DP::UI::UIRenderer::init();
 
 	m_shader->set_uniform_vec3("u_light_position", glm::vec3(-1.0f, 1.0f, 0.0f));
 }
@@ -93,9 +92,6 @@ void GameLayer::on_update(float delta_time)
 	m_shader->set_uniform_mat4("u_transform_matrix", m_cube_transform);
 
 	DP::Renderer::draw_indexed(m_vertex_array);
-
-	DP::UI::begin_panel("test", m_ui_camera, DP::UI::FP_DEFAULTS);
-	DP::UI::end_panel();
 
 	m_cube_rotation += 0.75f * delta_time;
 }

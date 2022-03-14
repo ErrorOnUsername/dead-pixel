@@ -13,7 +13,7 @@ Application::Application()
 {
 	window = make_own_ptr<Window>();
 	window->set_event_callback(std::bind(&Application::on_event, this, std::placeholders::_1));
-	current_window =window->window_handle;
+	current_window = window->window_handle;
 }
 
 Application::~Application() {}

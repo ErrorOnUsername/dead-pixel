@@ -18,8 +18,6 @@ set( PLATFORM_SOURCES
 
 set( GFX_SOURCES
 	gfx/camera.cc
-	gfx/ui/ui.cc
-	gfx/ui/ui_renderer.cc
 )
 
 set( GL_GFX_SOURCES

@@ -19,5 +19,3 @@
 #include <gfx/renderer.hh>
 #include <gfx/shader.hh>
 #include <gfx/vertex_array.hh>
-#include <gfx/ui/ui.hh>
-#include <gfx/ui/ui_renderer.hh>
