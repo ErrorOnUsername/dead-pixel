@@ -1,9 +1,9 @@
-#include "game_layer.hh"
+#include "editor_layer.hh"
 
 #include <glm/gtc/matrix_transform.hpp>
 
-GameLayer::GameLayer()
-	: Layer("GameLayer")
+EditorLayer::EditorLayer()
+	: Layer("EditorLayer")
 	, m_camera(1280.0f / 1024.0f)
 	, m_ui_camera(0.0f, 1280.0f, 0.0f, 1024.0f)
 	, m_cube_transform(1.0f)
@@ -71,15 +71,15 @@ GameLayer::GameLayer()
 	auto index_buffer = DP::IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t));
 	m_vertex_array->set_index_buffer(index_buffer);
 
-	m_shader = DP::Shader::create("gravity_game/assets/shaders/basic_cube.vert"
-	                            , "gravity_game/assets/shaders/basic_cube.frag");
+	m_shader = DP::Shader::create("dp_editor/assets/shaders/basic_cube.vert"
+	                            , "dp_editor/assets/shaders/basic_cube.frag");
 
 	DP::Renderer::set_clear_color(0.0f, 0.0f, 0.0f, 1.0f);
 
 	m_shader->set_uniform_vec3("u_light_position", glm::vec3(-1.0f, 1.0f, 0.0f));
 }
 
-void GameLayer::on_update(float delta_time)
+void EditorLayer::on_update(float delta_time)
 {
 	DP::Renderer::clear();
 	m_cube_transform = glm::translate(glm::mat4(1.0f), {0.0f, 0.0f, -5.0f});
@@ -96,13 +96,13 @@ void GameLayer::on_update(float delta_time)
 	m_cube_rotation += 0.75f * delta_time;
 }
 
-void GameLayer::on_event(DP::Event& e)
+void EditorLayer::on_event(DP::Event& e)
 {
 	DP::EventDispatcher dispatcher(e);
-	dispatcher.dispatch<DP::MouseScrolledEvent>(std::bind(&GameLayer::on_mouse_scrolled, this, std::placeholders::_1));
+	dispatcher.dispatch<DP::MouseScrolledEvent>(std::bind(&EditorLayer::on_mouse_scrolled, this, std::placeholders::_1));
 }
 
-bool GameLayer::on_mouse_scrolled(DP::MouseScrolledEvent& e)
+bool EditorLayer::on_mouse_scrolled(DP::MouseScrolledEvent& e)
 {
 	m_zoom += e.y_offset();
 	return true;

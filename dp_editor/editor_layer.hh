@@ -2,9 +2,9 @@
 
 #include <dead_pixel.hh>
 
-class GameLayer : public DP::Layer {
+class EditorLayer : public DP::Layer {
 public:
-	GameLayer();
+	EditorLayer();
 
 	void on_update(float delta_time) override;
 	void on_event(DP::Event&) override;

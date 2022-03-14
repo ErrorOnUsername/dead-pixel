@@ -23,10 +23,10 @@ include_directories( dead_pixel )
 add_subdirectory( third_party )
 add_subdirectory( dead_pixel )
 
-include_directories( gravity_game )
-add_subdirectory( gravity_game )
+include_directories( dp_editor )
+add_subdirectory( dp_editor )
 
 add_custom_target( run
-	COMMAND ./gravity_game/game
+	COMMAND ./dp_editor/editor
 	VERBATIM
 )

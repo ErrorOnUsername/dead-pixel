@@ -1,11 +1,11 @@
 #include <dead_pixel.hh>
 #include <dead_pixel_entry.hh>
 
-#include <game_layer.hh>
+#include <editor_layer.hh>
 
 class GameEntry : public DP::Application {
 public:
-	GameEntry () { push_layer(new GameLayer()); }
+	GameEntry () { push_layer(new EditorLayer()); }
 	~GameEntry() { }
 };
 
