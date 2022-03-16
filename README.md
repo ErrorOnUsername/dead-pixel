@@ -9,10 +9,10 @@ for it yet, so it's tentatively called "gravity game"
 ## todo
 ---
 - [X] Basic window
-- [X] Event system
-- [X] VAOs, VBOs, and IBOs
-- [X] Shaders
-- [X] Spinning Cube (primitive diffused lighting)
+- [ ] Event system
+- [ ] VAOs, VBOs, and IBOs
+- [ ] Shaders
+- [ ] Spinning Cube (primitive diffused lighting)
 - [ ] Textures
 - [ ] Text Rendering
 - [ ] Simple UI library
