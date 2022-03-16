@@ -4,21 +4,13 @@
 #include <core/types.hh>
 #include <core/window.hh>
 
-namespace DP {
+namespace DP::Application {
 
-struct Application {
-	Window window;
+void init(u32 window_width, u32 window_height, char const* name = "Dead Pixel Application");
 
-	float last_frame_time = 0.0f;
-	float delta_time      = 0.0f;
+void run();
 
-	Application(u32 window_width, u32 window_height, char const* name = "Dead Pixel Application");
-	~Application();
-
-	void run();
-
-	void push_layer(Layer*);
-	void pop_layer();
-};
+void push_layer(Layer*);
+void pop_layer();
 
 }
