@@ -23,10 +23,10 @@ include_directories( dead_pixel )
 add_subdirectory( third_party )
 add_subdirectory( dead_pixel )
 
-include_directories( dp_editor )
-add_subdirectory( dp_editor )
+include_directories( editor )
+add_subdirectory( editor )
 
 add_custom_target( run
-	COMMAND ./dp_editor/editor
+	COMMAND ./editor/editor
 	VERBATIM
 )

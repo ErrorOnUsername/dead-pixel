@@ -1,59 +1,31 @@
 #pragma once
 
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-
-#include <core/core.hh>
-#include <events/event.hh>
-#include <gfx/graphics_context.hh>
+#include <core/types.hh>
 
 namespace DP {
 
-struct WindowProperties {
-	WindowProperties(char const* window_title = "Dead Pixel",
-	                 uint32_t window_width = 1280,
-	                 uint32_t window_height = 1024,
-	                 bool vsync_enabled = true)
-		: title(window_title)
-		, width(window_width)
-		, height(window_height)
-		, is_vsync_enabled(vsync_enabled)
-	{ }
+struct WindowData {
+	u32  width;
+	u32  height;
+	bool vsync_enabled;
 
-	char const* title;
-	uint32_t width;
-	uint32_t height;
-	bool is_vsync_enabled;
+	void (*event_callback)();
 };
 
-
 struct Window {
-	using EventCallback = std::function<void(Event&)>;
+	void*      window_handle;
+	WindowData data;
 
-	struct WindowData {
-		const char* title;
-		uint32_t width;
-		uint32_t height;
-		bool is_vsync_enabled;
-
-		EventCallback event_callback;
-	};
-
-	GLFWwindow*      window_handle;
-	GraphicsContext* graphics_context;
-	WindowData       data;
-
-	Window(WindowProperties const& window_properties = WindowProperties());
+	Window(char const* title, u32 width, u32 height);
 	~Window();
 
 	void on_update();
 
-	uint32_t width() const;
-	uint32_t height() const;
-	void set_is_vsync_enabled(bool enabled);
-	bool is_vsync_enabled() const;
+	void set_title(char const* title);
+	void set_dimensions(u32 width, u32 height);
+	void enable_vsync(bool enabled);
 
-	void set_event_callback(EventCallback callback) { data.event_callback = callback; }
+	bool should_close();
 };
 
 }

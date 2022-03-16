@@ -1,65 +1,51 @@
 #include "application.hh"
+#include <vector>
+#include <cstdio>
 
-#include <core/memory.hh>
-#include <core/window.hh>
-#include <events/application_event.hh>
-#include <events/event.hh>
+#include <core/layer.hh>
+#include <core/time.hh>
+#include <core/types.hh>
 
 namespace DP {
 
-void* Application::current_window = nullptr;
+#define MAX_LAYER_COUNT 8
+static i16    last_index = -1;
+static Layer* layers[MAX_LAYER_COUNT];
 
-Application::Application()
-{
-	window = make_own_ptr<Window>();
-	window->set_event_callback(std::bind(&Application::on_event, this, std::placeholders::_1));
-	current_window = window->window_handle;
-}
+Application::Application(u32 window_width, u32 window_height, char const* name)
+	: window(name, window_width, window_height)
+{ }
 
-Application::~Application() {}
-
-void Application::on_event(Event& e)
-{
-	EventDispatcher dispatcher(e);
-	dispatcher.dispatch<WindowCloseEvent>(std::bind(&Application::on_window_close, this, std::placeholders::_1));
-
-	for(auto it = layer_stack.end(); it != layer_stack.begin(); ) {
-		if(e.handled())
-			break;
-		(*--it)->on_event(e);
-	}
-}
+Application::~Application() { }
 
 void Application::run()
 {
-	running = true;
-	while(running) {
+	while(!window.should_close()) {
+		// FIXME: Do this platform agnostically
+		float current_time = Time::seconds_since_start();
+		float delta_time = current_time - last_frame_time;
+		last_frame_time = current_time;
 
-		float time       = (float)glfwGetTime();
-		float delta_time = time - last_frame_time;
-		last_frame_time  = time;
+		for(i16 i = MAX_LAYER_COUNT - 1; i >= 0; i--) {
+			if(layers[i]) {
+				layers[i]->on_update(delta_time);
+			}
+		}
 
-		for(auto* layer : layer_stack)
-			layer->on_update(delta_time);
-
-		window->on_update();
+		window.on_update();
 	}
-}
-
-bool Application::on_window_close(WindowCloseEvent& e)
-{
-	running = false;
-	return true;
 }
 
 void Application::push_layer(Layer* layer)
 {
-	layer_stack.push_layer(layer);
+	layers[++last_index] = layer;
+	layer->on_attach();
 }
 
-void Application::push_overlay(Layer* overlay)
+void Application::pop_layer()
 {
-	layer_stack.push_overlay(overlay);
+	layers[last_index]->on_detach();
+	layers[last_index--] = nullptr;
 }
 
 }

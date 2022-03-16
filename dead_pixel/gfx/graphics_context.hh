@@ -1,13 +1,8 @@
 #pragma once
 
-namespace DP {
+namespace DP::GraphicsContext {
 
-struct GraphicsContext {
-	void* window_handle;
-
-	GraphicsContext(void* window);
-
-	void swap_buffers();
-};
+void init(void* window_handle);
+void swap_buffers(void* window_handle);
 
 }

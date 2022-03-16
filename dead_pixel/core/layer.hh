@@ -1,23 +1,15 @@
 #pragma once
 
-#include <core/core.hh>
-#include <events/event.hh>
+#include <core/events.hh>
 
 namespace DP {
 
-class DP_API Layer {
-public:
-	Layer(char const* name = "Layer");
-	virtual ~Layer();
-
+struct Layer {
 	virtual void on_attach() { }
 	virtual void on_detach() { }
-	virtual void on_update(float delta_time) { }
-	virtual void on_event (Event&) { }
 
-	inline char const* name() const { return m_name; }
-private:
-	char const* m_name;
+	virtual void on_update(float delta_time) = 0;
+	virtual void on_event(Event& event) = 0;
 };
 
 }

@@ -1,143 +1,115 @@
-#include <core/assert.hh>
-#include <core/log.hh>
 #include <core/window.hh>
-#include <events/application_event.hh>
-#include <events/key_event.hh>
-#include <events/mouse_event.hh>
+
+#include <glad/glad.h>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
+#include <core/assert.hh>
+#include <core/types.hh>
+#include <gfx/graphics_context.hh>
 
 namespace DP {
 
-static bool s_is_glfw_initialized = false;
-
 static void glfw_error_callback(int error, char const* description)
 {
-	DP_ENGINE_ERROR("GLFW Error [{0}]: {1}", error, description);
+	ASSERT(false);
 }
 
-Window::Window(WindowProperties const& properties)
+Window::Window(char const* title, u32 width, u32 height)
 {
-	DP_ENGINE_TRACE("Creating window \"{0}\" ({1} X {2})",
-	                properties.title,
-	                properties.width,
-	                properties.height);
+	ASSERT(glfwInit());
 
-	data.title  = properties.title;
-	data.width  = properties.width;
-	data.height = properties.height;
-
-	if(!s_is_glfw_initialized) {
-		int init_status = glfwInit();
-		ASSERT(init_status, "Failed to initialize GLFW!!!");
-
-		s_is_glfw_initialized = true;
-	}
+	data.width  = width;
+	data.height = height;
 
 #ifdef __APPLE__
+	// Workaround for macOS
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
 
-	window_handle = glfwCreateWindow((int)properties.width,
-	                            (int)properties.height,
-	                            properties.title,
-	                            nullptr,
-	                            nullptr);
+	window_handle = (void*)glfwCreateWindow(width, height, title, nullptr, nullptr);
 
-	graphics_context = new GraphicsContext(window_handle);
-	set_is_vsync_enabled(true);
+	GraphicsContext::init(window_handle);
 
-	glfwSetWindowUserPointer(window_handle, &data);
+	enable_vsync(true);
 
-	glfwSetWindowSizeCallback(window_handle, [](GLFWwindow* window, int width, int height) {
-		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-		data->width      = width;
-		data->height     = height;
+	glfwSetWindowUserPointer((GLFWwindow*)window_handle, &data);
 
-		WindowResizeEvent e(width, height);
-		data->event_callback(e);
+	glfwSetWindowSizeCallback((GLFWwindow*)window_handle, [] (GLFWwindow* window, int width, int height) {
+		auto* data = (WindowData*)glfwGetWindowUserPointer(window);
+
+		data->width  = width;
+		data->height = height;
+
+		// TODO: Propagate event
 	});
 
-	glfwSetWindowCloseCallback(window_handle, [] (GLFWwindow* window) {
-		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-		WindowCloseEvent e;
-		data->event_callback(e);
+	glfwSetWindowCloseCallback((GLFWwindow*)window_handle, [] (GLFWwindow* window) {
+		// TODO: Propagate event
 	});
 
-	glfwSetKeyCallback(window_handle, [] (GLFWwindow* window, int key, int scancode, int action, int mods) {
-		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-
+	glfwSetKeyCallback((GLFWwindow*)window_handle, [] (GLFWwindow* window, int key, int scancode, int action, int mods) {
 		switch(action) {
 			case GLFW_PRESS: {
-				KeyPressedEvent e(key, 0);
-				data->event_callback(e);
+				// TODO: Propagate event
 				break;
 			}
 			case GLFW_RELEASE: {
-				KeyReleasedEvent e(key);
-				data->event_callback(e);
+				// TODO: Propagate event
 				break;
 			}
 			case GLFW_REPEAT: {
-				KeyPressedEvent e(key, 1);
-				data->event_callback(e);
+				// TODO: Propagate event
 				break;
 			}
 		}
 	});
 
-	glfwSetMouseButtonCallback(window_handle, [] (GLFWwindow* window, int button, int action, int mods) {
-		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-
-		switch(action) {
-			case GLFW_PRESS: {
-				MouseButtonPressedEvent e(button);
-				data->event_callback(e);
-				break;
-			}
-			case GLFW_RELEASE: {
-				MouseButtonReleasedEvent e(button);
-				data->event_callback(e);
-				break;
-			}
-		}
+	glfwSetScrollCallback((GLFWwindow*)window_handle, [] (GLFWwindow* window, double x_offset, double y_offset) {
+		// TODO: Propagate event
 	});
 
-	glfwSetScrollCallback(window_handle, [] (GLFWwindow* window, double x_offset, double y_offset) {
-		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-		MouseScrolledEvent e((float)x_offset, (float)y_offset);
-		data->event_callback(e);
+	glfwSetCursorPosCallback((GLFWwindow*)window_handle, [] (GLFWwindow* window, double x_position, double y_position) {
+		// TODO: Propagate event
 	});
-
-	glfwSetCursorPosCallback(window_handle, [] (GLFWwindow* window, double x_position, double y_position) {
-		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-		MouseMovedEvent e(x_position, y_position);
-		data->event_callback(e);
-	});
-
-	glfwSetErrorCallback(glfw_error_callback);
 }
 
 Window::~Window()
 {
-	glfwDestroyWindow(window_handle);
-	delete graphics_context;
+	glfwDestroyWindow((GLFWwindow*)window_handle);
 }
 
 void Window::on_update()
 {
 	glfwPollEvents();
-	graphics_context->swap_buffers();
+	GraphicsContext::swap_buffers(window_handle);
 }
 
-void Window::set_is_vsync_enabled(bool enabled)
+void Window::set_title(char const* title)
 {
-	if(enabled)
-		glfwSwapInterval(1);
-	else
-		glfwSwapInterval(0);
+	glfwSetWindowTitle((GLFWwindow*)window_handle, title);
+}
 
-	data.is_vsync_enabled = enabled;
+void Window::set_dimensions(u32 width, u32 height)
+{
+	glfwSetWindowSize((GLFWwindow*)window_handle, width, height);
+
+	data.width  = width;
+	data.height = height;
+}
+
+void Window::enable_vsync(bool enabled)
+{
+	glfwSwapInterval((enabled) ? 1 : 0);
+
+	data.vsync_enabled = enabled;
+}
+
+bool Window::should_close()
+{
+	return glfwWindowShouldClose((GLFWwindow*)window_handle);
 }
 
 }

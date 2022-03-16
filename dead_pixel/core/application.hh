@@ -1,34 +1,24 @@
 #pragma once
 
-#include <core/core.hh>
 #include <core/layer.hh>
-#include <core/layer_stack.hh>
-#include <core/memory.hh>
+#include <core/types.hh>
 #include <core/window.hh>
-#include <events/application_event.hh>
 
 namespace DP {
 
 struct Application {
-	using EventCallback = std::function<void(Event&)>;
+	Window window;
 
-	static void* current_window;
+	float last_frame_time = 0.0f;
+	float delta_time      = 0.0f;
 
-	OwnPtr<Window> window;
-	LayerStack     layer_stack;
-	bool           running;
-	float          last_frame_time;
-
-	Application();
-	virtual ~Application();
+	Application(u32 window_width, u32 window_height, char const* name = "Dead Pixel Application");
+	~Application();
 
 	void run();
-	void on_event(Event&);
 
 	void push_layer(Layer*);
-	void push_overlay(Layer*);
-
-	bool on_window_close(WindowCloseEvent&);
+	void pop_layer();
 };
 
 }
