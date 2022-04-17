@@ -9,14 +9,12 @@ for it yet, so it's tentatively called "gravity game"
 ## todo
 ---
 - [X] Basic window
-- [ ] Event system
-- [ ] VAOs, VBOs, and IBOs
+- [X] Event system
+- [X] VAOs, VBOs, and IBOs
+- [ ] Textures/Asset Manager
 - [ ] Shaders
-- [ ] Spinning Cube (primitive diffused lighting)
-- [ ] Textures
-- [ ] Text Rendering
-- [ ] Simple UI library
-- [ ] Basic Editor UI
-- [ ] Entity System
 - [ ] Lighting
 - [ ] Shadows
+- [ ] Basic Editor UI
+- [ ] Spinning Cube
+- [ ] Entity System
