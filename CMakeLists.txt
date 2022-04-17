@@ -18,6 +18,7 @@ include_directories( third_party/glfw/include )
 include_directories( third_party/glad/include )
 include_directories( third_party/spdlog/include )
 include_directories( third_party/glm )
+include_directories( third_party/imgui )
 include_directories( dead_pixel )
 
 add_subdirectory( third_party )

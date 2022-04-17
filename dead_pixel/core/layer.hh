@@ -10,6 +10,7 @@ struct Layer {
 
 	virtual void on_update(float delta_time) = 0;
 	virtual void on_event(Event& event) = 0;
+	virtual void on_imgui_render() = 0;
 };
 
 }

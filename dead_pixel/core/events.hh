@@ -21,14 +21,34 @@ enum EventType : u8 {
 };
 
 #define EVENT_TYPE(event_type) \
-	EventType   type() const override { return EventType::event_type; } \
-	char const* name() const override { return #event_type; }
+	static inline EventType static_type() { return EventType::event_type; } \
+	EventType               type() const override { return static_type(); } \
+	char const*             name() const override { return #event_type; }
 
 struct Event {
 	bool handled;
 
 	virtual EventType   type() const = 0;
 	virtual char const* name() const = 0;
+};
+
+struct EventDispacher {
+	Event& event;
+
+	EventDispacher(Event& e)
+		: event(e)
+	{ }
+
+	template<typename T>
+	bool dispatch(bool (*callback)(T&))
+	{
+		if(event.type() == T::static_type()) {
+			event.handled = callback(*(T*)&event);
+			return true;
+		}
+
+		return false;
+	}
 };
 
 //////////////////////////////////////////////////
@@ -41,7 +61,7 @@ struct KeyPressedEvent : Event {
 	int  keycode;
 	bool repeated;
 
-	KeyPressedEvent(int keycode,bool repeated)
+	KeyPressedEvent(int keycode, bool repeated)
 		: keycode(keycode)
 		, repeated(repeated)
 	{ }

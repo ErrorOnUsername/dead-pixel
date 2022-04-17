@@ -1,5 +1,6 @@
 #pragma once
 
+#include <core/events.hh>
 #include <core/types.hh>
 
 namespace DP {
@@ -9,7 +10,7 @@ struct WindowData {
 	u32  height;
 	bool vsync_enabled;
 
-	void (*event_callback)();
+	void (*event_callback)(Event&);
 };
 
 struct Window {

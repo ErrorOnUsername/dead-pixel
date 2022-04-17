@@ -11,10 +11,17 @@ set( PLATFORM_GENERIC_SOURCES
 
 set( GL_SOURCES
 	gfx/api/opengl/gl_graphics_context.cc
+	gfx/api/opengl/gl_renderer.cc
+	gfx/api/opengl/gl_buffer.cc
+	gfx/api/opengl/gl_shader.cc
+	gfx/api/opengl/gl_vertex_array.cc
+	gfx/api/opengl/imgui_build.cc
 )
 
 set( CORE_SOURCES
 	core/application.cc
+	core/imgui_layer.cc
+	core/log.cc
 )
 
 set( GFX_SOURCES

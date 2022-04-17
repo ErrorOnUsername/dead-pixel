@@ -3,7 +3,6 @@ project( editor )
 
 set( EDITOR_SOURCES
 	editor_layer.cc
-	imgui_layer.cc
 	main.cc
 )
 

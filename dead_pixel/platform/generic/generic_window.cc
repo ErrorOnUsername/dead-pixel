@@ -12,12 +12,12 @@ namespace DP {
 
 static void glfw_error_callback(int error, char const* description)
 {
-	ASSERT(false);
+	ASSERT_FMT(false, "GLFW error: {}", description);
 }
 
 Window::Window(char const* title, u32 width, u32 height)
 {
-	ASSERT(glfwInit());
+	ASSERT(glfwInit(), "Failed to initialize GLFW");
 
 	data.width  = width;
 	data.height = height;
@@ -30,10 +30,13 @@ Window::Window(char const* title, u32 width, u32 height)
 #endif
 
 	window_handle = (void*)glfwCreateWindow(width, height, title, nullptr, nullptr);
+	DP_ENGINE_INFO("Created window: {} ({}x{})", title, width, height);
 
 	GraphicsContext::init(window_handle);
 
 	enable_vsync(true);
+
+	glViewport(0, 0, width, height);
 
 	glfwSetWindowUserPointer((GLFWwindow*)window_handle, &data);
 
@@ -43,36 +46,68 @@ Window::Window(char const* title, u32 width, u32 height)
 		data->width  = width;
 		data->height = height;
 
-		// TODO: Propagate event
+		WindowResizedEvent event(width, height);
+		data->event_callback(event);
 	});
 
 	glfwSetWindowCloseCallback((GLFWwindow*)window_handle, [] (GLFWwindow* window) {
-		// TODO: Propagate event
+		auto* data = (WindowData*)glfwGetWindowUserPointer(window);
+
+		WindowClosedEvent event;
+		data->event_callback(event);
 	});
 
 	glfwSetKeyCallback((GLFWwindow*)window_handle, [] (GLFWwindow* window, int key, int scancode, int action, int mods) {
+		auto* data = (WindowData*)glfwGetWindowUserPointer(window);
+
 		switch(action) {
 			case GLFW_PRESS: {
-				// TODO: Propagate event
+				KeyPressedEvent event(key, false);
+				data->event_callback(event);
 				break;
 			}
 			case GLFW_RELEASE: {
-				// TODO: Propagate event
+				KeyReleasedEvent event(key);
+				data->event_callback(event);
 				break;
 			}
 			case GLFW_REPEAT: {
-				// TODO: Propagate event
+				KeyPressedEvent event(key, true);
+				data->event_callback(event);
+				break;
+			}
+		}
+	});
+
+	glfwSetMouseButtonCallback((GLFWwindow*)window_handle, [] (GLFWwindow* window, int button, int action, int mods) {
+		auto* data = (WindowData*)glfwGetWindowUserPointer(window);
+
+		switch (action) {
+			case GLFW_PRESS: {
+				MouseButtonPressedEvent e(button);
+				data->event_callback(e);
+				break;
+			}
+			case GLFW_RELEASE: {
+				MouseButtonReleasedEvent e(button);
+				data->event_callback(e);
 				break;
 			}
 		}
 	});
 
 	glfwSetScrollCallback((GLFWwindow*)window_handle, [] (GLFWwindow* window, double x_offset, double y_offset) {
-		// TODO: Propagate event
+		auto* data = (WindowData*)glfwGetWindowUserPointer(window);
+
+		MouseScrolledEvent event(x_offset, y_offset);
+		data->event_callback(event);
 	});
 
 	glfwSetCursorPosCallback((GLFWwindow*)window_handle, [] (GLFWwindow* window, double x_position, double y_position) {
-		// TODO: Propagate event
+		auto* data = (WindowData*)glfwGetWindowUserPointer(window);
+
+		MouseMovedEvent event(x_position, y_position);
+		data->event_callback(event);
 	});
 }
 

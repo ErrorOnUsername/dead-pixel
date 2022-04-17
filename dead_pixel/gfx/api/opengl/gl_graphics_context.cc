@@ -12,7 +12,7 @@ void init(void* window_handle)
 {
 	glfwMakeContextCurrent((GLFWwindow*)window_handle);
 
-	ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress));
+	ASSERT(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress), "Failed to load graphics context");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

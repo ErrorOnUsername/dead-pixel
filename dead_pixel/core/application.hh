@@ -10,6 +10,8 @@ void init(u32 window_width, u32 window_height, char const* name = "Dead Pixel Ap
 
 void run();
 
+Window* current_window();
+
 void push_layer(Layer*);
 void pop_layer();
 
