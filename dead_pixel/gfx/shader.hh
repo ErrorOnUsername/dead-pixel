@@ -4,12 +4,13 @@
 #include <glm/glm.hpp>
 
 #include <core/memory.hh>
+#include <core/types.hh>
 
 namespace DP {
 
 struct Shader {
 	char const* name;
-	uint32_t    program_id;
+	u32    program_id;
 
 	Shader(char const* shader_name
 	     , char const* vert_source
@@ -30,7 +31,7 @@ struct Shader {
 
 	void        compile_code(char const* vert_source, char const* frag_source);
 	char const* read_file   (char const* filepath);
-	uint32_t    load_shader (GLenum shader_type, char const* shader_source);
+	u32         load_shader (GLenum shader_type, char const* shader_source);
 
 	void bind  ();
 	void unbind();

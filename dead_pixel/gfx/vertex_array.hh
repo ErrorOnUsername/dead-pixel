@@ -6,8 +6,8 @@
 namespace DP {
 
 struct VertexArray {
-	uint32_t array_id;
-	uint32_t vertex_buffer_index;
+	u32 array_id;
+	u32 vertex_buffer_index;
 
 	std::vector<RefPtr<VertexBuffer>> vertex_buffers;
 	RefPtr<IndexBuffer>               index_buffer;

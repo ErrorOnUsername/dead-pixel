@@ -1,7 +1,7 @@
 #pragma once
-#include <cstdint>
 #include <vector>
 
+#include <core/types.hh>
 #include <core/assert.hh>
 #include <core/memory.hh>
 
@@ -14,7 +14,7 @@ enum class ShaderDataType {
 	Mat3,  Mat4,
 };
 
-static uint32_t shader_data_type_size(ShaderDataType data_type)
+static u32 shader_data_type_size(ShaderDataType data_type)
 {
 	switch(data_type) {
 		case ShaderDataType::Bool:   return 1;
@@ -34,8 +34,8 @@ static uint32_t shader_data_type_size(ShaderDataType data_type)
 struct BufferElement {
 	char const*    name;
 	ShaderDataType type;
-	uint32_t       size;
-	size_t         offset;
+	u32            size;
+	usize          offset;
 	bool           is_normalized;
 
 	BufferElement() = default;
@@ -49,7 +49,7 @@ struct BufferElement {
 		, is_normalized(normalized)
 	{ }
 
-	uint32_t component_count() const
+	u32 component_count() const
 	{
 		switch(type) {
 			case ShaderDataType::Bool:   return 1;
@@ -74,7 +74,7 @@ struct BufferElement {
 
 struct BufferLayout {
 	std::vector<BufferElement> elements;
-	uint32_t                   stride;
+	u32                        stride;
 
 	BufferLayout() { };
 	BufferLayout(std::initializer_list<BufferElement> initializer_elements)
@@ -96,19 +96,19 @@ private:
 };
 
 struct VertexBuffer {
-	uint32_t     buffer_id;
+	u32          buffer_id;
 	BufferLayout buffer_layout;
 
-	VertexBuffer(uint32_t size);
-	VertexBuffer(float* vertices, uint32_t size);
+	VertexBuffer(u32 size);
+	VertexBuffer(float* vertices, u32 size);
 	~VertexBuffer();
 
-	static RefPtr<VertexBuffer> create(uint32_t size)
+	static RefPtr<VertexBuffer> create(u32 size)
 	{
 		return make_ref_ptr<VertexBuffer>(size);
 	}
 
-	static RefPtr<VertexBuffer> create(float* vertices, uint32_t size)
+	static RefPtr<VertexBuffer> create(float* vertices, u32 size)
 	{
 		return make_ref_ptr<VertexBuffer>(vertices, size);
 	}
@@ -116,17 +116,17 @@ struct VertexBuffer {
 	void bind  () const;
 	void unbind() const;
 
-	void set_data(void const* data, uint32_t size);
+	void set_data(void const* data, u32 size);
 };
 
 struct IndexBuffer {
-	uint32_t buffer_id;
-	uint32_t count;
+	u32 buffer_id;
+	u32 count;
 
-	IndexBuffer(uint32_t* indices, uint32_t size);
+	IndexBuffer(u32* indices, u32 size);
 	~IndexBuffer();
 
-	static RefPtr<IndexBuffer> create(uint32_t* indices, uint32_t size)
+	static RefPtr<IndexBuffer> create(u32* indices, u32 size)
 	{
 		return make_ref_ptr<IndexBuffer>(indices, size);
 	}

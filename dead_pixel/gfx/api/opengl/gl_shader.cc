@@ -10,13 +10,12 @@ namespace DP {
 
 static char const* find_shader_name_from_filepath(char const* filepath)
 {
-	size_t filepath_length  = strlen(filepath);
-	size_t last_slash_index = 0;
-	size_t end_index        = 0;
-	size_t name_length      = 0;
+	usize filepath_length  = strlen(filepath);
+	usize last_slash_index = 0;
+	usize end_index        = 0;
+	usize name_length      = 0;
 
-	for(size_t i = 0; i < filepath_length; i++)
-	{
+	for(usize i = 0; i < filepath_length; i++) {
 #ifdef _WIN32
 		// Gotta love the DOS artifacts
 		if(filepath[i] == '\\') {
@@ -41,7 +40,7 @@ static char const* find_shader_name_from_filepath(char const* filepath)
 	char* name = (char*)malloc(name_length);
 	strncpy(&name[0], &filepath[last_slash_index + 1], name_length - 1);
 	name[name_length - 1] = 0;
-	
+
 	return (char const*)name;
 }
 
@@ -77,8 +76,8 @@ Shader::~Shader()
 
 void Shader::compile_code(char const* vert_source, char const* frag_source)
 {
-	uint32_t vertex_shader_id   = load_shader(GL_VERTEX_SHADER, vert_source);
-	uint32_t fragment_shader_id = load_shader(GL_FRAGMENT_SHADER, frag_source);
+	u32 vertex_shader_id   = load_shader(GL_VERTEX_SHADER, vert_source);
+	u32 fragment_shader_id = load_shader(GL_FRAGMENT_SHADER, frag_source);
 
 	program_id = glCreateProgram();
 
@@ -101,9 +100,9 @@ char const* Shader::read_file(char const* relative_filepath)
 	// specify filepaths, we only need to worry about starting from the root of
 	// the project. To see how PROJECT_ROOT is defined, check the CMakeLists at
 	// the root of the project. :)
-	size_t root_length       = strlen(PROJECT_ROOT);
-	size_t relative_length   = strlen(relative_filepath);
-	size_t final_path_length = root_length + relative_length;
+	usize root_length       = strlen(PROJECT_ROOT);
+	usize relative_length   = strlen(relative_filepath);
+	usize final_path_length = root_length + relative_length;
 
 	// This is final_path_length + 1 because we need the terminating null byte
 	char filepath[final_path_length + 1];
@@ -116,25 +115,25 @@ char const* Shader::read_file(char const* relative_filepath)
 	ASSERT_FMT(file, "Could not find file at path: {0}!!!", (char const*)&filepath);
 
 	fseek(file, 0, SEEK_END);
-	size_t size = ftell(file);
+	usize size = ftell(file);
 	fseek(file, 0, SEEK_SET);
 
 	void* data = malloc(size + 1);
 	fread(data, 1, size, file);
 	fclose(file);
 
-	((uint8_t*)data)[size] = 0;
+	((u8*)data)[size] = 0;
 	return (char const*)data;
 }
 
 uint32_t Shader::load_shader(GLenum shader_type, char const* shader_source)
 {
-	uint32_t shader_id = glCreateShader(shader_type);
+	u32 shader_id = glCreateShader(shader_type);
 
 	glShaderSource(shader_id, 1, &shader_source, nullptr);
 	glCompileShader(shader_id);
 
-	int32_t shader_compiled = 0;
+	i32 shader_compiled = 0;
 	glGetShaderiv(shader_id, GL_COMPILE_STATUS, &shader_compiled);
 	if(shader_compiled != GL_TRUE) {
 		GLsizei log_size = 0;

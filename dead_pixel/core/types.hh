@@ -2,6 +2,8 @@
 
 // FIXME: I don't know if this exists on all compilers! Verify!
 
+using usize = __SIZE_TYPE__;
+
 using u8  = __UINT8_TYPE__;
 using u16 = __UINT16_TYPE__;
 using u32 = __UINT32_TYPE__;

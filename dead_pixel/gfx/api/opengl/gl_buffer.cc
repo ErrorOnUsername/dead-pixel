@@ -8,14 +8,14 @@ namespace DP {
 // | Vertex Buffer |
 // =================
 
-VertexBuffer::VertexBuffer(uint32_t size)
+VertexBuffer::VertexBuffer(u32 size)
 {
 	glGenBuffers(1, &buffer_id);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 }
 
-VertexBuffer::VertexBuffer(float* vertices, uint32_t size)
+VertexBuffer::VertexBuffer(float* vertices, u32 size)
 {
 	glGenBuffers(1, &buffer_id);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
@@ -37,7 +37,7 @@ void VertexBuffer::unbind() const
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void VertexBuffer::set_data(void const* data, uint32_t size)
+void VertexBuffer::set_data(void const* data, u32 size)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
@@ -47,14 +47,14 @@ void VertexBuffer::set_data(void const* data, uint32_t size)
 // | Index Buffer  |
 // =================
 
-IndexBuffer::IndexBuffer(uint32_t* indices, uint32_t size)
+IndexBuffer::IndexBuffer(u32* indices, u32 size)
 	: count(size)
 {
 	glGenBuffers(1, &buffer_id);
 
 	glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
 	glBufferData(GL_ARRAY_BUFFER,
-	             size * sizeof(uint32_t),
+	             size * sizeof(u32),
 	             indices,
 	             GL_STATIC_DRAW);
 }

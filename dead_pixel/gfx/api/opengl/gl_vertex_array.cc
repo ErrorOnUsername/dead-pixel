@@ -60,8 +60,7 @@ void VertexArray::add_vertex_buffer(RefPtr<VertexBuffer> const& buffer)
 
 	auto const& layout   = buffer->buffer_layout;
 	auto const& elements = layout.elements;
-	for(auto const& element : elements)
-	{
+	for(auto const& element : elements) {
 		switch(element.type) {
 			case ShaderDataType::Bool:
 			case ShaderDataType::Int:
@@ -98,7 +97,7 @@ void VertexArray::add_vertex_buffer(RefPtr<VertexBuffer> const& buffer)
 			case ShaderDataType::Mat3:
 			case ShaderDataType::Mat4: {
 				auto count = element.component_count();
-				for(uint32_t i = 0; i < count; i++) {
+				for(u32 i = 0; i < count; i++) {
 					glEnableVertexAttribArray(vertex_buffer_index);
 					glVertexAttribPointer(vertex_buffer_index
 					                    , count
