@@ -2,16 +2,35 @@
 
 #include <imgui.h>
 
+#include <core/assert.hh>
 #include <gfx/renderer.hh>
+#include <gfx/framebuffer.hh>
 
 void EditorLayer::on_attach()
 {
-	DP::Renderer::set_clear_color(0.3f, 0.3f, 0.3f);
+	DP::FramebufferFormat fmt = {
+		.width = 1280,
+		.height = 720,
+		.samples = 1,
+		.attachments = { DP::FramebufferTextureFormat::RGBA8, DP::FramebufferTextureFormat::Depth }
+	};
+
+	framebuffer = DP::Framebuffer::create(fmt);
 }
 
 void EditorLayer::on_update(float delta_time)
 {
+	DP::FramebufferFormat fmt = framebuffer->format;
+	if(current_viewport_size.x > 0.0f && current_viewport_size.y > 0.0f &&
+	   (fmt.width != current_viewport_size.x || fmt.height != current_viewport_size.y))
+	{
+		framebuffer->resize(current_viewport_size.x, current_viewport_size.y);
+	}
+
+	framebuffer->bind();
 	DP::Renderer::clear();
+	DP::Renderer::set_clear_color(0.0f, 1.0f, 1.0f);
+	framebuffer->unbind();
 }
 
 void EditorLayer::on_imgui_render()
@@ -20,7 +39,10 @@ void EditorLayer::on_imgui_render()
 	bool is_fullscreen = true;
 
 	ImGuiDockNodeFlags dock_flags = ImGuiDockNodeFlags_None;
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
+#ifndef __APPLE__
+	window_flags |= ImGuiWindowFlags_MenuBar;
+#endif
 
 	if(is_fullscreen) {
 		ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -57,20 +79,36 @@ void EditorLayer::on_imgui_render()
 
 	style.WindowMinSize.x = previous_min_width;
 
+	// FIXME: We should use apple APIs for this on mac, since they
+	//        dont use the same window style as linux and windows
+#ifndef __APPLE__
 	if(ImGui::BeginMenuBar()) {
 		if(ImGui::BeginMenu("File")) {
-#ifdef __APPLE__
-			// FIXME: We should use apple APIs for this on mac, since they
-			//        dont use the same window style as linux and windows
-			if(ImGui::MenuItem("New Scene", "Cmd+N")) { }
-#else
 			if(ImGui::MenuItem("New Scene", "Ctrl+N")) { }
-#endif
 			ImGui::EndMenu();
 		}
 
 		ImGui::EndMenuBar();
 	}
+#endif
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0.0f, 0.0f});
+	ImGui::Begin("Viewport");
+
+	auto viewport_min_size = ImGui::GetWindowContentRegionMin();
+	auto viewport_max_size = ImGui::GetWindowContentRegionMax();
+	auto viewport_offset   = ImGui::GetWindowPos();
+
+	viewport_minimum_bounds = { viewport_offset.x + viewport_min_size.x, viewport_offset.y + viewport_min_size.y };
+	viewport_maximum_bounds = { viewport_offset.x + viewport_max_size.x, viewport_offset.y + viewport_max_size.y };
+	auto viewport_panel_size = ImGui::GetContentRegionAvail();
+	current_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
+
+	u64 texture_id = framebuffer->attachment_id(0);
+	ImGui::Image((void*)texture_id, { current_viewport_size.x, current_viewport_size.y });
+
+	ImGui::End();
+	ImGui::PopStyleVar();
 
 	ImGui::End();
 }

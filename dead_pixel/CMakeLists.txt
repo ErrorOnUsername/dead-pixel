@@ -13,6 +13,7 @@ set( GL_SOURCES
 	gfx/api/opengl/gl_graphics_context.cc
 	gfx/api/opengl/gl_renderer.cc
 	gfx/api/opengl/gl_buffer.cc
+	gfx/api/opengl/gl_framebuffer.cc
 	gfx/api/opengl/gl_shader.cc
 	gfx/api/opengl/gl_vertex_array.cc
 	gfx/api/opengl/imgui_build.cc
