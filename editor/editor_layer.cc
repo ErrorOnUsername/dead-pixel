@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 
+#include <core/application.hh>
 #include <core/assert.hh>
 #include <gfx/renderer.hh>
 #include <gfx/framebuffer.hh>
@@ -15,7 +16,12 @@ void EditorLayer::on_attach()
 		.attachments = { DP::FramebufferTextureFormat::RGBA8, DP::FramebufferTextureFormat::Depth }
 	};
 
-	framebuffer = DP::Framebuffer::create(fmt);
+	framebuffer   = DP::Framebuffer::create(fmt);
+
+	auto* window  = DP::Application::current_window();
+	editor_camera = DP::Camera::create(DP::ProjectionStyle::Perspective, (float)window->data.width / window->data.height, 90.0f);
+
+	test_scene = TestScene::create();
 }
 
 void EditorLayer::on_update(float delta_time)
@@ -28,8 +34,11 @@ void EditorLayer::on_update(float delta_time)
 	}
 
 	framebuffer->bind();
+	DP::Renderer::set_clear_color(0.3f, 0.3f, 0.3f);
 	DP::Renderer::clear();
-	DP::Renderer::set_clear_color(0.0f, 1.0f, 1.0f);
+
+	test_scene->on_update_editor(delta_time, editor_camera.get());
+
 	framebuffer->unbind();
 }
 
@@ -103,6 +112,8 @@ void EditorLayer::on_imgui_render()
 	viewport_maximum_bounds = { viewport_offset.x + viewport_max_size.x, viewport_offset.y + viewport_max_size.y };
 	auto viewport_panel_size = ImGui::GetContentRegionAvail();
 	current_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
+
+	editor_camera->set_aspect_ratio(current_viewport_size.x / current_viewport_size.y);
 
 	u64 texture_id = framebuffer->attachment_id(0);
 	ImGui::Image((void*)texture_id, { current_viewport_size.x, current_viewport_size.y });

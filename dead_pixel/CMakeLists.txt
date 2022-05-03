@@ -27,6 +27,7 @@ set( CORE_SOURCES
 
 set( GFX_SOURCES
 	${GL_SOURCES}
+	gfx/camera.cc
 )
 
 set( PLATFORM_SOURCES

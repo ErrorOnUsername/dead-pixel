@@ -4,6 +4,7 @@ project( editor )
 set( EDITOR_SOURCES
 	editor_layer.cc
 	main.cc
+	test_scene.cc
 )
 
 add_executable( editor ${EDITOR_SOURCES} )

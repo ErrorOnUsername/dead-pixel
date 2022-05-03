@@ -20,6 +20,13 @@ void ImGuiLayer::on_attach() {
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
+#ifdef __APPLE__
+	io.FontDefault = io.Fonts->AddFontFromFileTTF("/System/Library/Fonts/SFNS.ttf", 18.0f);
+#elif defined(_WIN32)
+	// FIXME: Verify that this is the right path
+	io.FontDefault = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 18.0f);
+#endif
+
 	ImGui::StyleColorsDark();
 
 	ImGuiStyle& style = ImGui::GetStyle();

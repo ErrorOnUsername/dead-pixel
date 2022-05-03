@@ -96,6 +96,9 @@ void Shader::compile_code(char const* vert_source, char const* frag_source)
 
 char const* Shader::read_file(char const* relative_filepath)
 {
+#ifndef PROJECT_ROOT
+#error "You must define PROJECT_ROOT so that we can properly load files"
+#endif
 	// Here we use PROJECT_ROOT as the base of the file path so that when we
 	// specify filepaths, we only need to worry about starting from the root of
 	// the project. To see how PROJECT_ROOT is defined, check the CMakeLists at
