@@ -76,13 +76,16 @@ TestScene::TestScene()
 }
 
 static float rotation = 0.0f;
-void TestScene::on_update_editor(float delta_time, DP::Camera* editor_camera)
-{
-	cube_shader->bind();
-	cube_shader->set_uniform_mat4("u_pv_matrix", editor_camera->pv_matrix);
-	cube_shader->set_uniform_mat4("u_transform_matrix", glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f)) * glm::rotate(glm::mat4(1.0f), rotation, {0.0, 1.0, 1.0}));
+static glm::mat4 transform = glm::mat4(1.0f);
 
-	DP::Renderer::submit_draw(cube_va);
+void TestScene::on_update_editor(float delta_time, DP::RefPtr<DP::Camera> editor_camera)
+{
+	transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
+	transform = glm::rotate(transform, rotation, { 0.0f, 1.0f, 1.0f });
+
+	DP::Renderer::begin_draw_scope(editor_camera);
+	DP::Renderer::submit_draw(cube_shader, cube_va, transform);
+	DP::Renderer::end_draw_scope();
 
 	rotation += 0.03f;
 }

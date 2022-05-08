@@ -23,6 +23,11 @@ set( CORE_SOURCES
 	core/application.cc
 	core/imgui_layer.cc
 	core/log.cc
+	core/uuid.cc
+)
+
+set( ENTITY_SYSTEM_SOURCES
+	entity_system/entity_context.cc
 )
 
 set( GFX_SOURCES
@@ -36,6 +41,7 @@ set( PLATFORM_SOURCES
 
 set( ENGINE_SOURCES
 	${CORE_SOURCES}
+	${ENTITY_SYSTEM_SOURCES}
 	${PLATFORM_SOURCES}
 	${GFX_SOURCES}
 )

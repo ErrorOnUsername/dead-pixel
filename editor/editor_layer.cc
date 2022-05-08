@@ -6,6 +6,7 @@
 #include <core/assert.hh>
 #include <gfx/renderer.hh>
 #include <gfx/framebuffer.hh>
+#include <panels.hh>
 
 void EditorLayer::on_attach()
 {
@@ -37,7 +38,7 @@ void EditorLayer::on_update(float delta_time)
 	DP::Renderer::set_clear_color(0.3f, 0.3f, 0.3f);
 	DP::Renderer::clear();
 
-	test_scene->on_update_editor(delta_time, editor_camera.get());
+	test_scene->on_update_editor(delta_time, editor_camera);
 
 	framebuffer->unbind();
 }
@@ -100,6 +101,9 @@ void EditorLayer::on_imgui_render()
 		ImGui::EndMenuBar();
 	}
 #endif
+
+	draw_scene_panel(dynamic_cast<DP::Scene*>(test_scene.get()));
+	draw_property_panel(dynamic_cast<DP::Scene*>(test_scene.get()));
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0.0f, 0.0f});
 	ImGui::Begin("Viewport");

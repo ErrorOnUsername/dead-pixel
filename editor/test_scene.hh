@@ -12,6 +12,6 @@ struct TestScene : public DP::Scene {
 
 	TestScene();
 
-	virtual void on_update_editor(float delta_time, DP::Camera* editor_camera) override;
+	virtual void on_update_editor(float delta_time, DP::RefPtr<DP::Camera> editor_camera) override;
 	virtual void on_update_runtime(float delta_time) override;
 };
