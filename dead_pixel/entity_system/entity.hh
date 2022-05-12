@@ -1,7 +1,6 @@
 #pragma once
 
 #include <core/types.hh>
-#include <core/uuid.hh>
 #include <entity_system/components/transform_component.hh>
 
 namespace DP {
@@ -13,8 +12,9 @@ enum class EntityComponentMask : u32 {
 };
 
 struct Entity {
-	UUID               id;
-	u32                component_bitfield;
+	u32 id;
+	u32 component_bitfield;
+
 	TransformComponent transform;
 };
 

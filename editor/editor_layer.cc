@@ -23,6 +23,8 @@ void EditorLayer::on_attach()
 	editor_camera = DP::Camera::create(DP::ProjectionStyle::Perspective, (float)window->data.width / window->data.height, 90.0f);
 
 	test_scene = TestScene::create();
+
+	test_scene->data->context.request_new();
 }
 
 void EditorLayer::on_update(float delta_time)
@@ -79,15 +81,10 @@ void EditorLayer::on_imgui_render()
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuiStyle& style = ImGui::GetStyle();
 
-	float previous_min_width = style.WindowMinSize.x;
-	style.WindowMinSize.x = 400.0f;
-
 	if(io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
 		ImGuiID dock_id = ImGui::GetID("DeadPixelDockSpace");
 		ImGui::DockSpace(dock_id, {0.0f, 0.0f}, dock_flags);
 	}
-
-	style.WindowMinSize.x = previous_min_width;
 
 	// FIXME: We should use apple APIs for this on mac, since they
 	//        dont use the same window style as linux and windows
