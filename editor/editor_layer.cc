@@ -4,6 +4,7 @@
 
 #include <core/application.hh>
 #include <core/assert.hh>
+#include <entity_system/components/bitmasks.hh>
 #include <gfx/renderer.hh>
 #include <gfx/framebuffer.hh>
 #include <panels.hh>
@@ -24,7 +25,8 @@ void EditorLayer::on_attach()
 
 	test_scene = TestScene::create();
 
-	test_scene->data->context.request_new();
+	auto* e = test_scene->data->context.request_new();
+	e->component_bitfield = DP::Component::MESH_COMPONENT_BITMASK | DP::Component::TRANSFORM_COMPONENT_BITMASK;
 }
 
 void EditorLayer::on_update(float delta_time)

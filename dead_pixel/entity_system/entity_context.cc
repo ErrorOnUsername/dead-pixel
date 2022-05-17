@@ -10,7 +10,7 @@ EntityContext::EntityContext()
 	, id_index_lookup()
 { }
 
-Entity* EntityContext::request_new()
+Entity* EntityContext::request_new(char const* name)
 {
 	for(usize i = 0; i < MAX_ENTITY_COUNT; i++) {
 		if(entity_table[i].id == 0) {
@@ -20,7 +20,10 @@ Entity* EntityContext::request_new()
 			ASSERT(!id_index_lookup.contains(id), "ID already exists!");
 			id_index_lookup[id] = i;
 
-			return &entity_table[i];
+			Entity* entity = &entity_table[i];
+			entity->name = name;
+
+			return entity;
 		}
 	}
 

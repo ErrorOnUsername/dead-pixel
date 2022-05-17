@@ -15,7 +15,7 @@ struct EntityContext {
 
 	EntityContext();
 
-	Entity* request_new();
+	Entity* request_new(char const* name = "Empty Entity");
 	Entity* from_id(u32 id);
 
 	void for_each(void (*func)(Entity*));

@@ -12,6 +12,8 @@ enum class EntityComponentMask : u32 {
 };
 
 struct Entity {
+	char const* name;
+
 	u32 id;
 	u32 component_bitfield;
 

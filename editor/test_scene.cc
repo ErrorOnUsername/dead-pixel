@@ -69,7 +69,7 @@ TestScene::TestScene()
 	cube_vb->buffer_layout = buffer_layout;
 	cube_va->add_vertex_buffer(cube_vb);
 
-	auto cube_ib= DP::IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t));
+	auto cube_ib = DP::IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t));
 	cube_va->set_index_buffer(cube_ib);
 
 	cube_shader = DP::Shader::create("editor/shaders/basic_cube.vert" , "editor/shaders/basic_cube.frag");
