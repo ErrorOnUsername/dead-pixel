@@ -75,19 +75,15 @@ TestScene::TestScene()
 	cube_shader = DP::Shader::create("editor/shaders/basic_cube.vert" , "editor/shaders/basic_cube.frag");
 }
 
-static float rotation = 0.0f;
 static glm::mat4 transform = glm::mat4(1.0f);
 
 void TestScene::on_update_editor(float delta_time, DP::RefPtr<DP::Camera> editor_camera)
 {
-	transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
-	transform = glm::rotate(transform, rotation, { 0.0f, 1.0f, 1.0f });
+	transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 1.0f, -3.0f));
 
 	DP::Renderer::begin_draw_scope(editor_camera);
 	DP::Renderer::submit_draw(cube_shader, cube_va, transform);
 	DP::Renderer::end_draw_scope();
-
-	rotation += 0.03f;
 }
 
 void TestScene::on_update_runtime(float delta_time)

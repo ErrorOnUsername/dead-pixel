@@ -25,8 +25,11 @@ void EditorLayer::on_attach()
 
 	test_scene = TestScene::create();
 
-	auto* e = test_scene->data->context.request_new();
-	e->component_bitfield = DP::Component::MESH_COMPONENT_BITMASK | DP::Component::TRANSFORM_COMPONENT_BITMASK;
+	auto* e = test_scene->data->context.request_new("Entity 1");
+	e->component_bitfield = DP::Component::TRANSFORM_COMPONENT_BITMASK;
+
+	auto* t = test_scene->data->context.request_new("Entity 2");
+	t->component_bitfield = DP::Component::MESH_COMPONENT_BITMASK;
 }
 
 void EditorLayer::on_update(float delta_time)

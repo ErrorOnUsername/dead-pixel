@@ -2,6 +2,7 @@
 
 #include <core/types.hh>
 #include <entity_system/components/transform_component.hh>
+#include <entity_system/components/mesh_component.hh>
 
 namespace DP {
 
@@ -18,6 +19,7 @@ struct Entity {
 	u32 component_bitfield;
 
 	TransformComponent transform;
+	MeshComponent      mesh;
 };
 
 }

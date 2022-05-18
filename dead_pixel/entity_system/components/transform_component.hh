@@ -10,6 +10,12 @@ struct TransformComponent {
 	glm::vec3 rotation;
 	glm::vec3 scale;
 
+	TransformComponent()
+		: positon(0.0f)
+		, rotation(0.0f)
+		, scale(0.0f)
+	{ }
+
 	inline glm::mat4 matrix()
 	{
 		return glm::translate(glm::mat4(1.0), positon)
