@@ -26,7 +26,7 @@ void EditorLayer::on_attach()
 	test_scene = TestScene::create();
 
 	auto* e = test_scene->data->context.request_new("Entity 1");
-	e->component_bitfield = DP::Component::TRANSFORM_COMPONENT_BITMASK;
+	e->component_bitfield = DP::Component::TRANSFORM_COMPONENT_BITMASK | DP::Component::MESH_COMPONENT_BITMASK;
 
 	auto* t = test_scene->data->context.request_new("Entity 2");
 	t->component_bitfield = DP::Component::MESH_COMPONENT_BITMASK;
@@ -122,7 +122,7 @@ void EditorLayer::on_imgui_render()
 	editor_camera->set_aspect_ratio(current_viewport_size.x / current_viewport_size.y);
 
 	u64 texture_id = framebuffer->attachment_id(0);
-	ImGui::Image((void*)texture_id, { current_viewport_size.x, current_viewport_size.y });
+	ImGui::Image((void*)texture_id, { current_viewport_size.x, current_viewport_size.y }, { 0.0f, 1.0f }, { 1.0f, 0.0f });
 
 	ImGui::End();
 	ImGui::PopStyleVar();
