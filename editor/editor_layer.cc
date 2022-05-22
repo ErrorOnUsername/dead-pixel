@@ -86,10 +86,15 @@ void EditorLayer::on_imgui_render()
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuiStyle& style = ImGui::GetStyle();
 
+	float prev_min_width = style.WindowMinSize.x;
+	style.WindowMinSize.x = 300.0f;
+
 	if(io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
 		ImGuiID dock_id = ImGui::GetID("DeadPixelDockSpace");
 		ImGui::DockSpace(dock_id, {0.0f, 0.0f}, dock_flags);
 	}
+
+	style.WindowMinSize.x = prev_min_width;
 
 	// FIXME: We should use apple APIs for this on mac, since they
 	//        dont use the same window style as linux and windows
