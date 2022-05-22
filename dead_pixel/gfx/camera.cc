@@ -2,6 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <core/log.hh>
+
 namespace DP {
 
 Camera::Camera(ProjectionStyle projection_style,
@@ -19,21 +21,21 @@ Camera::Camera(ProjectionStyle projection_style,
 		case ProjectionStyle::Orthographic : {
 			projection_matrix = glm::ortho(left, right, bottom, top);
 
-			glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position);
-			glm::rotate(view_mat, rotation.x, { 1.0f, 0.0f, 0.0f });
-			glm::rotate(view_mat, rotation.y, { 0.0f, 1.0f, 0.0f });
-			glm::rotate(view_mat, rotation.z, { 0.0f, 0.0f, 1.0f });
+			glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position)
+							   * glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f })
+							   * glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f })
+							   * glm::rotate(glm::mat4(1.0f), rotation.z, { 0.0f, 0.0f, 1.0f });
 
 			pv_matrix = projection_matrix * view_mat;
 			break;
 		}
 		case ProjectionStyle::Perspective : {
-			projection_matrix = glm::perspective(glm::radians(fov), aspect_ratio, 0.1f, 1000.0f);
+			projection_matrix = glm::perspective(glm::radians(fov), aspect_ratio, 0.1f, 100.0f);
 
-			glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position);
-			glm::rotate(view_mat, rotation.x, { 1.0f, 0.0f, 0.0f });
-			glm::rotate(view_mat, rotation.y, { 0.0f, 1.0f, 0.0f });
-			glm::rotate(view_mat, rotation.z, { 0.0f, 0.0f, 1.0f });
+			glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position)
+							   * glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f })
+							   * glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f })
+							   * glm::rotate(glm::mat4(1.0f), rotation.z, { 0.0f, 0.0f, 1.0f });
 
 			pv_matrix = projection_matrix * view_mat;
 			break;
@@ -52,23 +54,23 @@ void Camera::set_projection_style(ProjectionStyle projection_style,
 		case ProjectionStyle::Orthographic : {
 			projection_matrix = glm::ortho(left, right, bottom, top);
 
-			glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position);
-			glm::rotate(view_mat, rotation.x, { 1.0f, 0.0f, 0.0f });
-			glm::rotate(view_mat, rotation.y, { 0.0f, 1.0f, 0.0f });
-			glm::rotate(view_mat, rotation.z, { 0.0f, 0.0f, 1.0f });
+			glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position)
+							   * glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f })
+							   * glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f })
+							   * glm::rotate(glm::mat4(1.0f), rotation.z, { 0.0f, 0.0f, 1.0f });
 
 			pv_matrix = projection_matrix * view_mat;
 			break;
 		}
 		case ProjectionStyle::Perspective : {
-			projection_matrix  = glm::perspective(glm::radians(fov), aspect_ratio, 0.01f, 1000.0f);
 			this->fov          = fov;
 			this->aspect_ratio = aspect_ratio;
+			projection_matrix  = glm::perspective(glm::radians(fov), aspect_ratio, 0.01f, 100.0f);
 
-			glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position);
-			glm::rotate(view_mat, rotation.x, { 1.0f, 0.0f, 0.0f });
-			glm::rotate(view_mat, rotation.y, { 0.0f, 1.0f, 0.0f });
-			glm::rotate(view_mat, rotation.z, { 0.0f, 0.0f, 1.0f });
+			glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position)
+							   * glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f })
+							   * glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f })
+							   * glm::rotate(glm::mat4(1.0f), rotation.z, { 0.0f, 0.0f, 1.0f });
 
 			pv_matrix = projection_matrix * view_mat;
 			break;
@@ -78,26 +80,26 @@ void Camera::set_projection_style(ProjectionStyle projection_style,
 
 void Camera::set_aspect_ratio(float ratio)
 {
-	projection_matrix = glm::perspective(glm::radians(fov), ratio, 0.01f, 1000.0f);
 	aspect_ratio = ratio;
+	projection_matrix = glm::perspective(glm::radians(fov), ratio, 0.01f, 100.0f);
 
-	glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position);
-	glm::rotate(view_mat, rotation.x, { 1.0f, 0.0f, 0.0f });
-	glm::rotate(view_mat, rotation.y, { 0.0f, 1.0f, 0.0f });
-	glm::rotate(view_mat, rotation.z, { 0.0f, 0.0f, 1.0f });
+	glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position)
+	                   * glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f })
+	                   * glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f })
+	                   * glm::rotate(glm::mat4(1.0f), rotation.z, { 0.0f, 0.0f, 1.0f });
 
 	pv_matrix = projection_matrix * view_mat;
 }
 
 void Camera::set_fov(float fov)
 {
-	projection_matrix = glm::perspective(glm::radians(fov), aspect_ratio, 0.01f, 1000.0f);
 	this->fov = fov;
+	projection_matrix = glm::perspective(glm::radians(fov), aspect_ratio, 0.01f, 100.0f);
 
-	glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position);
-	glm::rotate(view_mat, rotation.x, { 1.0f, 0.0f, 0.0f });
-	glm::rotate(view_mat, rotation.y, { 0.0f, 1.0f, 0.0f });
-	glm::rotate(view_mat, rotation.z, { 0.0f, 0.0f, 1.0f });
+	glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position)
+	                   * glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f })
+	                   * glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f })
+	                   * glm::rotate(glm::mat4(1.0f), rotation.z, { 0.0f, 0.0f, 1.0f });
 
 	pv_matrix = projection_matrix * view_mat;
 }
@@ -106,10 +108,10 @@ void Camera::set_ortho_bounds(float left, float right, float bottom, float top)
 {
 	projection_matrix = glm::ortho(left, right, bottom, top);
 
-	glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position);
-	glm::rotate(view_mat, rotation.x, { 1.0f, 0.0f, 0.0f });
-	glm::rotate(view_mat, rotation.y, { 0.0f, 1.0f, 0.0f });
-	glm::rotate(view_mat, rotation.z, { 0.0f, 0.0f, 1.0f });
+	glm::mat4 view_mat = glm::translate(glm::mat4(1.0f), position)
+	                   * glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f })
+	                   * glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f })
+	                   * glm::rotate(glm::mat4(1.0f), rotation.z, { 0.0f, 0.0f, 1.0f });
 
 	pv_matrix = projection_matrix * view_mat;
 }
