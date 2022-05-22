@@ -87,7 +87,7 @@ void EditorLayer::on_imgui_render()
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	float prev_min_width = style.WindowMinSize.x;
-	style.WindowMinSize.x = 300.0f;
+	style.WindowMinSize.x = 315.0f;
 
 	if(io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
 		ImGuiID dock_id = ImGui::GetID("DeadPixelDockSpace");
