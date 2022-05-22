@@ -60,14 +60,46 @@ static void draw_vec3_control(char const* label, glm::vec3& vector);
 
 static void draw_transform_widget(DP::TransformComponent& transform)
 {
+	ImGui::Separator();
+	ImGui::Spacing();
+
+	ImGui::Text("Transform");
 	draw_vec3_control("Positon", transform.positon);
 	draw_vec3_control("Rotation", transform.rotation);
 	draw_vec3_control("Scale", transform.scale);
+
+	ImGui::Spacing();
+	ImGui::Separator();
 }
 
 static void draw_mesh_widget(DP::MeshComponent& mesh)
 {
-	ImGui::TextColored({ 0.0f, 1.0f, 0.0f, 1.0f }, "Mesh");
+	ImGui::Spacing();
+
+	ImGui::Text("Mesh");
+
+	ImGui::Columns(2);
+	ImGui::SetColumnWidth(0, 75.0f);
+
+	ImGui::Text("File");
+	ImGui::NextColumn();
+
+	ImGui::Text("INSERT FILE PATH");
+
+	ImGui::NextColumn();
+	ImGui::Text("Vertices");
+	ImGui::NextColumn();
+	ImGui::Text("VERT COUNT");
+
+	ImGui::NextColumn();
+	ImGui::Text("Triangles");
+	ImGui::NextColumn();
+	ImGui::Text("TRI COUNT");
+
+	ImGui::Columns(1);
+
+	ImGui::Spacing();
+	ImGui::Separator();
 }
 
 static void draw_vec3_control(char const* label, glm::vec3& vector)
