@@ -17,6 +17,7 @@ set( GL_SOURCES
 	gfx/api/opengl/gl_shader.cc
 	gfx/api/opengl/gl_vertex_array.cc
 	gfx/api/opengl/imgui_build.cc
+	gfx/api/opengl/imgui_static.cc
 )
 
 set( CORE_SOURCES

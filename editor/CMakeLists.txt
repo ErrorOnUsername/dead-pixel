@@ -9,4 +9,4 @@ set( EDITOR_SOURCES
 )
 
 add_executable( editor ${EDITOR_SOURCES} )
-target_link_libraries( editor dead_pixel imgui )
+target_link_libraries( editor dead_pixel )

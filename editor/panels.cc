@@ -141,7 +141,7 @@ static void draw_vec3_control(char const* label, glm::vec3& vector)
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.2f, 0.6f, 0.2f, 1.0f });
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.1f, 0.5f, 0.1f, 1.0f });
 	if(ImGui::Button("Y", button_size))
-		vector.x = 0.0f;
+		vector.y = 0.0f;
 	ImGui::PopStyleColor(3);
 
 	ImGui::SameLine();
@@ -157,7 +157,7 @@ static void draw_vec3_control(char const* label, glm::vec3& vector)
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.2f, 0.2f, 0.6f, 1.0f });
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.1f, 0.1f, 0.5f, 1.0f });
 	if(ImGui::Button("Z", button_size))
-		vector.x = 0.0f;
+		vector.z = 0.0f;
 	ImGui::PopStyleColor(3);
 
 	ImGui::SameLine();
