@@ -15,6 +15,7 @@ set( GL_SOURCES
 	gfx/api/opengl/gl_buffer.cc
 	gfx/api/opengl/gl_framebuffer.cc
 	gfx/api/opengl/gl_shader.cc
+	gfx/api/opengl/gl_texture.cc
 	gfx/api/opengl/gl_vertex_array.cc
 	gfx/api/opengl/imgui_build.cc
 	gfx/api/opengl/imgui_static.cc
@@ -24,7 +25,6 @@ set( CORE_SOURCES
 	core/application.cc
 	core/imgui_layer.cc
 	core/log.cc
-	core/uuid.cc
 )
 
 set( ENTITY_SYSTEM_SOURCES
@@ -48,4 +48,4 @@ set( ENGINE_SOURCES
 )
 
 add_library( dead_pixel ${ENGINE_SOURCES} )
-target_link_libraries( dead_pixel glfw glad )
+target_link_libraries( dead_pixel glfw glad stb_img )
