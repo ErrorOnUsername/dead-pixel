@@ -35,27 +35,29 @@ Texture::Texture(char const* path)
 	, internal_format(0)
 	, data_format(0)
 {
-#ifndef PROJECT_ROOT
-#error "You must define PROJECT_ROOT so that we can properly load files"
+	char cwd[128];
+	getcwd(cwd, 128);
+
+	usize cwd_len = strlen(cwd);
+	usize rel_len = strlen(path);
+
+	char abs_path[256];
+	strncpy(abs_path, cwd, cwd_len);
+
+#ifdef _WIN32
+	abs_path[cwd_len] = '\\';
+#else
+	abs_path[cwd_len] = '/';
 #endif
-	// Here we use PROJECT_ROOT as the base of the file path so that when we
-	// specify filepaths, we only need to worry about starting from the root of
-	// the project. To see how PROJECT_ROOT is defined, check the CMakeLists at
-	// the root of the project. :)
-	usize root_length       = strlen(PROJECT_ROOT);
-	usize relative_length   = strlen(path);
-	usize final_path_length = root_length + relative_length;
 
-	// This is final_path_length + 1 because we need the terminating null byte
-	char filepath[final_path_length + 1];
+	ASSERT(256 - (cwd_len + 1) >= rel_len, "FILE PATH TOO LONG AND DOESN'T FIT IN BUFFER");
+	strncpy(&abs_path[cwd_len + 1], path, rel_len);
 
-	strncpy(&filepath[0], PROJECT_ROOT, root_length);
-	strncpy(&filepath[root_length], path, relative_length);
-	filepath[final_path_length] = 0;
+	abs_path[cwd_len + 1 + rel_len] = 0;
 
 	int real_width, real_height, channels;
 	stbi_set_flip_vertically_on_load(1);
-	stbi_uc* data = stbi_load((char const*)filepath, &real_width, &real_height, &channels, 0);
+	stbi_uc* data = stbi_load(abs_path, &real_width, &real_height, &channels, 0);
 
 	if (data) {
 		is_loaded = true;

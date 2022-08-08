@@ -71,7 +71,7 @@ TestScene::TestScene()
 	auto cube_ib = DP::IndexBuffer::create(indices, 36);
 	cube_va->set_index_buffer(cube_ib);
 
-	cube_shader = DP::Shader::create("editor/shaders/basic_cube.vert" , "editor/shaders/basic_cube.frag");
+	cube_shader = DP::Shader::create("editor/assets/shaders/basic_cube.vert" , "editor/assets/shaders/basic_cube.frag");
 }
 
 static glm::mat4 transform = glm::mat4(1.0f);
@@ -90,4 +90,4 @@ void TestScene::on_update_editor(float delta_time, DP::RefPtr<DP::Camera> editor
 }
 
 void TestScene::on_update_runtime(float delta_time)
-{}
+{ }

@@ -1,4 +1,6 @@
+#include <cstring>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -96,26 +98,28 @@ void Shader::compile_code(char const* vert_source, char const* frag_source)
 
 char const* Shader::read_file(char const* relative_filepath)
 {
-#ifndef PROJECT_ROOT
-#error "You must define PROJECT_ROOT so that we can properly load files"
+	char cwd[128];
+	getcwd(cwd, 128);
+
+	usize cwd_len = strlen(cwd);
+	usize rel_len = strlen(relative_filepath);
+
+	char abs_path[256];
+	strncpy(abs_path, cwd, cwd_len);
+
+#ifdef _WIN32
+	abs_path[cwd_len] = '\\';
+#else
+	abs_path[cwd_len] = '/';
 #endif
-	// Here we use PROJECT_ROOT as the base of the file path so that when we
-	// specify filepaths, we only need to worry about starting from the root of
-	// the project. To see how PROJECT_ROOT is defined, check the CMakeLists at
-	// the root of the project. :)
-	usize root_length       = strlen(PROJECT_ROOT);
-	usize relative_length   = strlen(relative_filepath);
-	usize final_path_length = root_length + relative_length;
 
-	// This is final_path_length + 1 because we need the terminating null byte
-	char filepath[final_path_length + 1];
+	ASSERT(256 - (cwd_len + 1) >= rel_len, "FILE PATH TOO LONG AND DOESN'T FIT IN BUFFER");
+	strncpy(&abs_path[cwd_len + 1], relative_filepath, rel_len);
 
-	strncpy(&filepath[0], PROJECT_ROOT, root_length);
-	strncpy(&filepath[root_length], relative_filepath, relative_length);
-	filepath[final_path_length] = 0;
+	abs_path[cwd_len + 1 + rel_len] = 0;
 
-	FILE* file = fopen((char const*)&filepath, "r");
-	ASSERT_FMT(file, "Could not find file at path: {0}!!!", (char const*)&filepath);
+	FILE* file = fopen((char const*)abs_path, "r");
+	ASSERT_FMT(file, "Could not find file at path: {0}!!!", relative_filepath);
 
 	fseek(file, 0, SEEK_END);
 	usize size = ftell(file);

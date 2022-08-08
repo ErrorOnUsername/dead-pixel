@@ -47,5 +47,10 @@ set( ENGINE_SOURCES
 	${GFX_SOURCES}
 )
 
-add_library( dead_pixel ${ENGINE_SOURCES} )
-target_link_libraries( dead_pixel glfw glad stb_img )
+add_library( ${PROJECT_NAME} ${ENGINE_SOURCES} )
+target_link_libraries( ${PROJECT_NAME} glfw glad stb_img )
+
+add_custom_command( TARGET ${PROJECT_NAME} PRE_BUILD
+	COMMAND ${CMAKE_COMMAND} -E create_symlink
+	${CMAKE_CURRENT_SOURCE_DIR}/default_assets $<TARGET_FILE_DIR:${PROJECT_NAME}>/default_assets
+)

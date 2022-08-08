@@ -8,12 +8,6 @@ if( CMAKE_BUILD_TYPE MATCHES Debug )
 	add_compile_definitions( DP_DEBUG )
 endif()
 
-if(WIN32)
-	add_compile_definitions( PROJECT_ROOT="${CMAKE_CURRENT_SOURCE_DIR}\\" )
-else()
-	add_compile_definitions( PROJECT_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/" )
-endif()
-
 include_directories( third_party/glfw/include )
 include_directories( third_party/glad/include )
 include_directories( third_party/spdlog/include )
