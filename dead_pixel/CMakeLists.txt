@@ -25,10 +25,12 @@ set( CORE_SOURCES
 	core/application.cc
 	core/imgui_layer.cc
 	core/log.cc
+	core/scene.cc
 )
 
 set( ENTITY_SYSTEM_SOURCES
 	entity_system/entity_context.cc
+	entity_system/components/mesh_component.cc
 )
 
 set( GFX_SOURCES

@@ -31,6 +31,8 @@ VertexArray::VertexArray()
 VertexArray::~VertexArray()
 {
 	glDeleteVertexArrays(1, &array_id);
+	for(auto* vb : vertex_buffers) delete vb;
+	delete index_buffer;
 }
 
 void VertexArray::bind()
@@ -43,7 +45,7 @@ void VertexArray::unbind()
 	glBindVertexArray(0);
 }
 
-void VertexArray::set_index_buffer(RefPtr<IndexBuffer> const& buffer)
+void VertexArray::set_index_buffer(IndexBuffer* buffer)
 {
 	bind();
 	buffer->bind();
@@ -51,7 +53,7 @@ void VertexArray::set_index_buffer(RefPtr<IndexBuffer> const& buffer)
 	index_buffer = buffer;
 }
 
-void VertexArray::add_vertex_buffer(RefPtr<VertexBuffer> const& buffer)
+void VertexArray::add_vertex_buffer(VertexBuffer* buffer)
 {
 	ASSERT(buffer->buffer_layout.elements.size(), "vertex buffer has no layout!!!");
 

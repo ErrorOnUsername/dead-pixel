@@ -9,6 +9,53 @@
 #include <gfx/framebuffer.hh>
 #include <panels.hh>
 
+static float vertices[7 * 4 * 6] = {
+	// BACK
+	-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+	 0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+	-0.5f,  0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+
+	// FRONT
+	-0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+
+	// LEFT
+	-0.5f,  0.5f,  0.5f, -1.0f, 0.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f, -1.0f, 0.0f, 0.0f,
+
+	// RIGHT
+	 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+	 0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f, 1.0f, 0.0f, 0.0f,
+
+	// BOTTOM
+	-0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+	 0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f, 0.0f, -1.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f, 0.0f, -1.0f, 0.0f,
+
+	// TOP
+	-0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f,
+};
+
+static uint32_t indices[] = {
+	0,  1,  2,  2,  3,  0,
+	4,  5,  6,  6,  7,  4,
+	8,  9,  10, 10, 11, 8,
+	12, 13, 14, 14, 15, 12,
+	16, 17, 18, 18, 19, 16,
+	20, 21, 22, 22, 23, 20,
+};
+
 void EditorLayer::on_attach()
 {
 	DP::FramebufferFormat fmt = {
@@ -18,18 +65,18 @@ void EditorLayer::on_attach()
 		.attachments = { DP::FramebufferTextureFormat::RGBA8, DP::FramebufferTextureFormat::Depth }
 	};
 
-	framebuffer   = DP::Framebuffer::create(fmt);
+	framebuffer = new DP::Framebuffer(fmt);
 
 	auto* window  = DP::Application::current_window();
-	editor_camera = DP::Camera::create(DP::ProjectionStyle::Perspective, (float)window->data.width / window->data.height, 90.0f);
+	editor_camera = new DP::Camera(DP::ProjectionStyle::Perspective, (float)window->data.width / window->data.height, 90.0f);
 
-	test_scene = TestScene::create();
+	test_scene = new DP::Scene("Test");
 
-	auto* e = test_scene->data->context.request_new("Entity 1");
+	auto* e = test_scene->data->context.request_new("Cube");
+
+	e->mesh.set_data(vertices, sizeof(vertices) / sizeof(float), indices, sizeof(indices) / sizeof(u32));
+	e->transform.positon = glm::vec3(0.0f, 0.0f, -2.0f);
 	e->component_bitfield = DP::Component::TRANSFORM_COMPONENT_BITMASK | DP::Component::MESH_COMPONENT_BITMASK;
-
-	auto* t = test_scene->data->context.request_new("Entity 2");
-	t->component_bitfield = DP::Component::MESH_COMPONENT_BITMASK;
 }
 
 void EditorLayer::on_update(float delta_time)
@@ -109,8 +156,8 @@ void EditorLayer::on_imgui_render()
 	}
 #endif
 
-	draw_scene_panel(dynamic_cast<DP::Scene*>(test_scene.get()));
-	draw_property_panel(dynamic_cast<DP::Scene*>(test_scene.get()));
+	draw_scene_panel(dynamic_cast<DP::Scene*>(test_scene));
+	draw_property_panel(dynamic_cast<DP::Scene*>(test_scene));
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0.0f, 0.0f});
 	ImGui::Begin("Viewport");

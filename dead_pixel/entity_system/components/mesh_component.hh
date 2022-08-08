@@ -1,14 +1,18 @@
 #pragma once
 
-#include <core/memory.hh>
 #include <gfx/vertex_array.hh>
 #include <gfx/shader.hh>
 
 namespace DP {
 
 struct MeshComponent {
-	RefPtr<VertexArray> mesh_va;
-	RefPtr<Shader>      mesh_shader;
+	VertexArray* mesh_va;
+	Shader*      mesh_shader;
+
+	MeshComponent();
+	~MeshComponent();
+
+	void set_data(float* vertices, u32 vert_count, u32* indices, u32 index_count);
 };
 
 }

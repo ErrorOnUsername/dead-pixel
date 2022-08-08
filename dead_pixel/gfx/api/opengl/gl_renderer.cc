@@ -17,7 +17,7 @@ void set_clear_color(float r, float g, float b)
 	glClearColor(r, g, b, 1.0f);
 }
 
-void begin_draw_scope(RefPtr<Camera> camera)
+void begin_draw_scope(Camera* camera)
 {
 	pv_matrix = camera->pv_matrix;
 	in_draw_scope = true;
@@ -28,7 +28,7 @@ void end_draw_scope()
 	in_draw_scope = false;
 }
 
-void submit_draw(RefPtr<Shader> shader, RefPtr<VertexArray> vertex_array, glm::mat4& transform)
+void submit_draw(Shader* shader, VertexArray* vertex_array, glm::mat4 transform)
 {
 	ASSERT(in_draw_scope, "You must be in a draw scope to submit a draw call!");
 

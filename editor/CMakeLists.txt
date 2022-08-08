@@ -5,7 +5,6 @@ set( EDITOR_SOURCES
 	editor_layer.cc
 	main.cc
 	panels.cc
-	test_scene.cc
 )
 
 add_executable( ${PROJECT_NAME} ${EDITOR_SOURCES} )

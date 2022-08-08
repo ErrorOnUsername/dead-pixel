@@ -6,12 +6,6 @@
 
 namespace DP {
 
-enum class EntityComponentMask : u32 {
-	None = 0,
-
-	Transform = 0x01,
-};
-
 struct Entity {
 	char const* name;
 

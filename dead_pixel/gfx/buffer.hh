@@ -3,7 +3,6 @@
 
 #include <core/types.hh>
 #include <core/assert.hh>
-#include <core/memory.hh>
 
 namespace DP {
 
@@ -103,16 +102,6 @@ struct VertexBuffer {
 	VertexBuffer(float* vertices, u32 size);
 	~VertexBuffer();
 
-	static RefPtr<VertexBuffer> create(u32 size)
-	{
-		return make_ref_ptr<VertexBuffer>(size);
-	}
-
-	static RefPtr<VertexBuffer> create(float* vertices, u32 size)
-	{
-		return make_ref_ptr<VertexBuffer>(vertices, size);
-	}
-
 	void bind  () const;
 	void unbind() const;
 
@@ -125,11 +114,6 @@ struct IndexBuffer {
 
 	IndexBuffer(u32* indices, u32 size);
 	~IndexBuffer();
-
-	static RefPtr<IndexBuffer> create(u32* indices, u32 size)
-	{
-		return make_ref_ptr<IndexBuffer>(indices, size);
-	}
 
 	void bind  () const;
 	void unbind() const;

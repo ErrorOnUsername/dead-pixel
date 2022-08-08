@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 
-#include <core/memory.hh>
 #include <core/types.hh>
 
 namespace DP {
@@ -29,8 +28,6 @@ struct Framebuffer {
 	std::vector<uint32_t>                 framebuffer_color_texture_ids;
 	FramebufferTextureFormat              depth_attachment;
 	uint32_t                              framebuffer_depth_texture_id;
-
-	static inline RefPtr<Framebuffer> create(FramebufferFormat fmt) { return make_ref_ptr<Framebuffer>(fmt); }
 
 	Framebuffer(FramebufferFormat fmt);
 	~Framebuffer();
