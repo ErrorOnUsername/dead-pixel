@@ -35,7 +35,7 @@ set( ENTITY_SYSTEM_SOURCES
 
 set( GFX_SOURCES
 	${GL_SOURCES}
-	gfx/camera.cc
+	gfx/editor_camera.cc
 )
 
 set( PLATFORM_SOURCES

@@ -17,9 +17,9 @@ void set_clear_color(float r, float g, float b)
 	glClearColor(r, g, b, 1.0f);
 }
 
-void begin_draw_scope(Camera* camera)
+void begin_draw_scope(EditorCamera* camera)
 {
-	pv_matrix = camera->pv_matrix;
+	pv_matrix = camera->projection_matrix * camera->view_matrix;
 	in_draw_scope = true;
 }
 

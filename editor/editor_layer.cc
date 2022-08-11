@@ -68,7 +68,7 @@ void EditorLayer::on_attach()
 	framebuffer = new DP::Framebuffer(fmt);
 
 	auto* window  = DP::Application::current_window();
-	editor_camera = new DP::Camera(DP::ProjectionStyle::Perspective, (float)window->data.width / window->data.height, 90.0f);
+	editor_camera = new DP::EditorCamera(90.0f, (float)window->data.width / (float)window->data.height, 0.1f, 1000.0f);
 
 	test_scene = new DP::Scene("Test");
 
@@ -171,7 +171,7 @@ void EditorLayer::on_imgui_render()
 	auto viewport_panel_size = ImGui::GetContentRegionAvail();
 	current_viewport_size = { viewport_panel_size.x, viewport_panel_size.y };
 
-	editor_camera->set_aspect_ratio(current_viewport_size.x / current_viewport_size.y);
+	editor_camera->adjust_aspect_ratio(current_viewport_size.x / current_viewport_size.y);
 
 	u64 texture_id = framebuffer->attachment_id(0);
 	ImGui::Image((void*)texture_id, { current_viewport_size.x, current_viewport_size.y }, { 0.0f, 1.0f }, { 1.0f, 0.0f });

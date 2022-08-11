@@ -6,12 +6,12 @@
 #include <core/layer.hh>
 #include <core/scene.hh>
 #include <gfx/framebuffer.hh>
-#include <gfx/camera.hh>
+#include <gfx/editor_camera.hh>
 
 struct EditorLayer : DP::Layer {
-	DP::Framebuffer* framebuffer;
-	DP::Camera*      editor_camera;
-	DP::Scene*       test_scene;
+	DP::Framebuffer*  framebuffer;
+	DP::EditorCamera* editor_camera;
+	DP::Scene*        test_scene;
 
 	glm::vec2 current_viewport_size;
 	glm::vec2 viewport_minimum_bounds;

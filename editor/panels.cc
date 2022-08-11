@@ -2,7 +2,9 @@
 
 #include <imgui.h>
 #include <imgui_internal.h>
+#include <glm/glm.hpp>
 
+#include <entity_system/entity.hh>
 #include <entity_system/components/bitmasks.hh>
 #include <entity_system/components/mesh_component.hh>
 #include <entity_system/components/transform_component.hh>
@@ -15,9 +17,15 @@ static void draw_mesh_widget(DP::MeshComponent&);
 void draw_scene_panel(DP::Scene* scene)
 {
 	if(ImGui::Begin("Scene Hierarchy")) {
-		if(ImGui::TreeNode(scene->name)) {
+		if(ImGui::Button("New Entity")) {
+			DP::Entity* e = scene->data->context.request_new("Empty Entity");
+			e->component_bitfield = DP::Component::TRANSFORM_COMPONENT_BITMASK;
+		}
+
+		ImGuiTreeNodeFlags root_flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanAvailWidth;
+		if(ImGui::TreeNodeEx("SCENE", root_flags, "%s", scene->name)) {
 			scene->data->context.for_each([] (DP::Entity* entity) {
-				ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf;
+				ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_SpanAvailWidth;
 
 				if(entity->id == selected_id)
 					flags |= ImGuiTreeNodeFlags_Selected;
@@ -27,6 +35,7 @@ void draw_scene_panel(DP::Scene* scene)
 						selected_id = entity->id;
 					else if(!ImGui::IsAnyItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
 						selected_id = 0;
+
 					ImGui::TreePop();
 				}
 			});
@@ -56,7 +65,7 @@ void draw_property_panel(DP::Scene* scene)
 	ImGui::End();
 }
 
-static void draw_vec3_control(char const* label, glm::vec3& vector);
+static void draw_vec3_control(char const* label, glm::vec3& vector, glm::vec3 reset_vec);
 
 static void draw_transform_widget(DP::TransformComponent& transform)
 {
@@ -64,9 +73,9 @@ static void draw_transform_widget(DP::TransformComponent& transform)
 	ImGui::Spacing();
 
 	ImGui::Text("Transform");
-	draw_vec3_control("Positon", transform.positon);
-	draw_vec3_control("Rotation", transform.rotation);
-	draw_vec3_control("Scale", transform.scale);
+	draw_vec3_control("Positon", transform.positon, glm::vec3(0, 0, 0));
+	draw_vec3_control("Rotation", transform.rotation, glm::vec3(0, 0, 0));
+	draw_vec3_control("Scale", transform.scale, glm::vec3(1, 1, 1));
 
 	ImGui::Spacing();
 	ImGui::Separator();
@@ -102,7 +111,7 @@ static void draw_mesh_widget(DP::MeshComponent& mesh)
 	ImGui::Separator();
 }
 
-static void draw_vec3_control(char const* label, glm::vec3& vector)
+static void draw_vec3_control(char const* label, glm::vec3& vector, glm::vec3 reset_vec)
 {
 	ImGui::PushID(label);
 	ImGui::Columns(2);
@@ -125,7 +134,7 @@ static void draw_vec3_control(char const* label, glm::vec3& vector)
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.6f, 0.2f, 0.2f, 1.0f });
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.5f, 0.1f, 0.1f, 1.0f });
 	if(ImGui::Button("X", button_size))
-		vector.x = 0.0f;
+		vector.x = reset_vec.x;
 	ImGui::PopStyleColor(3);
 
 	ImGui::SameLine();
@@ -141,7 +150,7 @@ static void draw_vec3_control(char const* label, glm::vec3& vector)
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.2f, 0.6f, 0.2f, 1.0f });
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.1f, 0.5f, 0.1f, 1.0f });
 	if(ImGui::Button("Y", button_size))
-		vector.y = 0.0f;
+		vector.y = reset_vec.y;
 	ImGui::PopStyleColor(3);
 
 	ImGui::SameLine();
@@ -157,7 +166,7 @@ static void draw_vec3_control(char const* label, glm::vec3& vector)
 	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.2f, 0.2f, 0.6f, 1.0f });
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.1f, 0.1f, 0.5f, 1.0f });
 	if(ImGui::Button("Z", button_size))
-		vector.z = 0.0f;
+		vector.z = reset_vec.z;
 	ImGui::PopStyleColor(3);
 
 	ImGui::SameLine();

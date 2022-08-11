@@ -1,7 +1,7 @@
 #pragma once
 
 #include <core/scene_data.hh>
-#include <gfx/camera.hh>
+#include <gfx/editor_camera.hh>
 
 namespace DP {
 
@@ -14,7 +14,7 @@ struct Scene {
 		, data(new SceneData()) { }
 	~Scene() { delete data; }
 
-	void on_update_editor(float delta_time, Camera* camera);
+	void on_update_editor(float delta_time, EditorCamera* camera);
 	void on_update_runtime(float delta_time);
 
 	void dump_data_to_disk();
