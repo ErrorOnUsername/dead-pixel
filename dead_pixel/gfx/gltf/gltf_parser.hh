@@ -1,5 +1,7 @@
 #pragma once
 
+struct ParsedGLTFFile;
+
 struct GLTFParser {
-	static from_file(char const* filepath);
+	static ParsedGLTFFile from_file(char const* filepath);
 };

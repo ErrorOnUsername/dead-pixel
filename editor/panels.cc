@@ -14,6 +14,10 @@ static u32 selected_id = 0;
 static void draw_transform_widget(DP::TransformComponent&);
 static void draw_mesh_widget(DP::MeshComponent&);
 
+static void draw_vec3_control(char const* label, glm::vec3& vector, glm::vec3 reset_vec);
+
+static void draw_add_component_item(char const* item_name, DP::Entity* entity, u32 component_bitmask);
+
 void draw_scene_panel(DP::Scene* scene)
 {
 	if(ImGui::Begin("Scene Hierarchy")) {
@@ -33,8 +37,6 @@ void draw_scene_panel(DP::Scene* scene)
 				if(ImGui::TreeNodeEx("ENTITY", flags, "%s", entity->name)) {
 					if(ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen())
 						selected_id = entity->id;
-					else if(!ImGui::IsAnyItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-						selected_id = 0;
 
 					ImGui::TreePop();
 				}
@@ -50,22 +52,32 @@ void draw_property_panel(DP::Scene* scene)
 {
 	if(ImGui::Begin("Properties")) {
 		DP::Entity* entity = scene->data->context.from_id(selected_id);
+
 		if(entity) {
 			ImGui::Text("Selected Entity: %s", entity->name);
 
 			u32 components = entity->component_bitfield;
+
 			if(components & DP::Component::TRANSFORM_COMPONENT_BITMASK)
 				draw_transform_widget(entity->transform);
-			if (components & DP::Component::MESH_COMPONENT_BITMASK)
+			if(components & DP::Component::MESH_COMPONENT_BITMASK)
 				draw_mesh_widget(entity->mesh);
+
+			if(ImGui::Button("Add Component"))
+				ImGui::OpenPopup("AddComponent");
+
+			if(ImGui::BeginPopup("AddComponent")) {
+				draw_add_component_item("Transform Component", entity, DP::Component::TRANSFORM_COMPONENT_BITMASK);
+				draw_add_component_item("Mesh Component", entity, DP::Component::MESH_COMPONENT_BITMASK);
+
+				ImGui::EndPopup();
+			}
 		} else {
 			ImGui::Text("No entity selected...");
 		}
 	}
 	ImGui::End();
 }
-
-static void draw_vec3_control(char const* label, glm::vec3& vector, glm::vec3 reset_vec);
 
 static void draw_transform_widget(DP::TransformComponent& transform)
 {
@@ -177,4 +189,14 @@ static void draw_vec3_control(char const* label, glm::vec3& vector, glm::vec3 re
 
 	ImGui::Columns(1);
 	ImGui::PopID();
+}
+
+static void draw_add_component_item(char const* item_name, DP::Entity* entity, u32 component_bitmask)
+{
+	if(!(entity->component_bitfield & component_bitmask)) {
+		if(ImGui::MenuItem(item_name)) {
+			entity->component_bitfield |= component_bitmask;
+			ImGui::CloseCurrentPopup();
+		}
+	}
 }

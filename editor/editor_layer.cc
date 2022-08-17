@@ -68,7 +68,7 @@ void EditorLayer::on_attach()
 	framebuffer = new DP::Framebuffer(fmt);
 
 	auto* window  = DP::Application::current_window();
-	editor_camera = new DP::EditorCamera(90.0f, (float)window->data.width / (float)window->data.height, 0.1f, 1000.0f);
+	editor_camera = new DP::EditorCamera(45.0f, (float)window->data.width / (float)window->data.height, 0.1f, 1000.0f);
 
 	test_scene = new DP::Scene("Test");
 

@@ -1,4 +1,7 @@
 #pragma once
+#include <entity_system/components/mesh_component.hh>
+#include <vector>
+
 #include <core/types.hh>
 
 constexpr u32 GLB_MAGIC = 0x46546C67; // "glTF" in ASCII
@@ -19,3 +22,7 @@ struct GLBChunk {
 	u8* chunk_data;
 } PACKED;
 static_assert(sizeof(GLBChunk) == 16);
+
+struct ParsedGLTFFile {
+	DP::MeshComponent mesh;
+};
