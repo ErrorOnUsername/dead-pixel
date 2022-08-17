@@ -5,7 +5,7 @@ components of modern games actually work.
 ## Latest Screenshot
 <p align="center">
 
-<img width=400 src="docs/screenshots/latest.png"/>
+<img src="docs/screenshots/latest.png"/>
 
 </p>
 
