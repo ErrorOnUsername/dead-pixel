@@ -25,4 +25,5 @@ add_subdirectory( editor )
 add_custom_target( run
 	COMMAND ./editor/editor
 	VERBATIM
+	DEPENDS editor
 )
