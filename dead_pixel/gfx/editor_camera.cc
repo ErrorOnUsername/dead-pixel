@@ -1,11 +1,12 @@
 #include "editor_camera.hh"
-#include "core/input_codes.hh"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
-#include <core/log.hh>
+#include <core/events.hh>
 #include <core/input.hh>
+#include <core/input_codes.hh>
+#include <core/log.hh>
 
 namespace DP {
 
@@ -70,6 +71,22 @@ void EditorCamera::on_update(float delta_time)
 		pitch += delta.y;
 	}
 	calculate_view();
+}
+
+bool on_mouse_scroll(EditorCamera&, MouseScrolledEvent&);
+
+void EditorCamera::on_event(Event& e)
+{
+	EventDispacher dispacher(e);
+	dispacher.dispatch<EditorCamera, MouseScrolledEvent>(*this, on_mouse_scroll);
+}
+
+bool on_mouse_scroll(EditorCamera& context, MouseScrolledEvent& e)
+{
+	context.distance -= e.y_offset;
+	if(context.distance < 1.0f) context.distance = 1.0f;
+	else if(context.distance > 20.0f) context.distance = 20.0f;
+	return false;
 }
 
 glm::vec3 EditorCamera::calculate_position() const

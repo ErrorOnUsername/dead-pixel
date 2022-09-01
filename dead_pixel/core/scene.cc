@@ -9,6 +9,8 @@ void Scene::on_update_editor(float delta_time, EditorCamera *camera)
 {
 	camera->on_update(delta_time);
 
+	DP::Renderer::begin_draw_scope(camera);
+
 	data->context.for_each([] (Entity* e) {
 		if(e->component_bitfield & Component::MESH_COMPONENT_BITMASK &&
 		   e->component_bitfield & Component::TRANSFORM_COMPONENT_BITMASK) {
@@ -19,6 +21,8 @@ void Scene::on_update_editor(float delta_time, EditorCamera *camera)
 			    tf);
 		}
 	});
+
+	DP::Renderer::end_draw_scope();
 }
 
 void Scene::on_update_runtime(float delta_time)

@@ -3,6 +3,7 @@
 #include <core/events.hh>
 #include <core/imgui_layer.hh>
 #include <core/layer.hh>
+#include <core/log.hh>
 #include <core/time.hh>
 #include <core/types.hh>
 

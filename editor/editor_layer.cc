@@ -118,17 +118,14 @@ void EditorLayer::on_update(float delta_time)
 	DP::Renderer::set_clear_color(0.3f, 0.3f, 0.3f);
 	DP::Renderer::clear();
 
-	DP::Renderer::begin_draw_scope(editor_camera);
-
 	test_scene->on_update_editor(delta_time, editor_camera);
-
-	DP::Renderer::end_draw_scope();
 
 	auto t = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
 	DP::Renderer::begin_draw_scope(editor_camera);
 	DP::Renderer::submit_draw(grid_plane_shader, grid_plane_va, t);
 	DP::Renderer::end_draw_scope();
+
 
 	framebuffer->unbind();
 }
@@ -218,4 +215,7 @@ void EditorLayer::on_imgui_render()
 	ImGui::End();
 }
 
-void EditorLayer::on_event(DP::Event& e) { }
+void EditorLayer::on_event(DP::Event& e)
+{
+	editor_camera->on_event(e);
+}

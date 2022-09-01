@@ -3,6 +3,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <core/events.hh>
+
 namespace DP {
 
 struct EditorCamera {
@@ -29,6 +31,7 @@ struct EditorCamera {
 	void calculate_projection();
 
 	void on_update(float delta_time);
+	void on_event(Event&);
 
 	inline void recalculate_projection_matrix() { projection_matrix = glm::perspective(fov, aspect_ratio, near_clip_z, far_clip_z); }
 

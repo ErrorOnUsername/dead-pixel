@@ -26,7 +26,7 @@ enum EventType : u8 {
 	char const*             name() const override { return #event_type; }
 
 struct Event {
-	bool handled;
+	bool handled = false;
 
 	virtual EventType   type() const = 0;
 	virtual char const* name() const = 0;
@@ -39,11 +39,11 @@ struct EventDispacher {
 		: event(e)
 	{ }
 
-	template<typename T>
-	bool dispatch(bool (*callback)(T&))
+	template<typename ContextT, typename EventT>
+	bool dispatch(ContextT& context, bool (*callback)(ContextT&, EventT&))
 	{
-		if(event.type() == T::static_type()) {
-			event.handled = callback(*(T*)&event);
+		if(event.type() == EventT::static_type()) {
+			event.handled = callback(context, *(EventT*)&event);
 			return true;
 		}
 

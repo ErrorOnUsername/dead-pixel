@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 
 #include <core/assert.hh>
+#include <core/log.hh>
 #include <core/types.hh>
 #include <gfx/graphics_context.hh>
 
