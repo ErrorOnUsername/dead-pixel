@@ -13,6 +13,9 @@ struct EditorLayer : DP::Layer {
 	DP::EditorCamera* editor_camera;
 	DP::Scene*        test_scene;
 
+	DP::Shader*      grid_plane_shader;
+	DP::VertexArray* grid_plane_va;
+
 	glm::vec2 current_viewport_size;
 	glm::vec2 viewport_minimum_bounds;
 	glm::vec2 viewport_maximum_bounds;

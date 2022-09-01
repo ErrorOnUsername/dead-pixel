@@ -1,4 +1,5 @@
 #include "editor_layer.hh"
+#include "gfx/shader.hh"
 
 #include <imgui.h>
 
@@ -8,6 +9,17 @@
 #include <gfx/renderer.hh>
 #include <gfx/framebuffer.hh>
 #include <panels.hh>
+
+static float grid_plane_vertices[] = {
+	-5.0f,  0.0f, -5.0f, 0.0f, 1.0f, 0.0f,
+	 5.0f,  0.0f, -5.0f, 0.0f, 1.0f, 0.0f,
+	 5.0f,  0.0f,  5.0f, 0.0f, 1.0f, 0.0f,
+	-5.0f,  0.0f,  5.0f, 0.0f, 1.0f, 0.0f,
+};
+
+static uint32_t grid_plane_indices[] = {
+	0,  1,  2,  2,  3,  0,
+};
 
 static float vertices[7 * 4 * 6] = {
 	// BACK
@@ -70,12 +82,26 @@ void EditorLayer::on_attach()
 	auto* window  = DP::Application::current_window();
 	editor_camera = new DP::EditorCamera(45.0f, (float)window->data.width / (float)window->data.height, 0.1f, 1000.0f);
 
+	grid_plane_va = new DP::VertexArray();
+
+	auto* grid_plane_vb = new DP::VertexBuffer(grid_plane_vertices, sizeof(grid_plane_vertices));
+	grid_plane_vb->buffer_layout = DP::BufferLayout {
+		{ DP::ShaderDataType::Float3, "in_position" },
+		{ DP::ShaderDataType::Float3, "in_normal" }
+	};
+
+	auto* grid_plane_ib = new DP::IndexBuffer(grid_plane_indices, sizeof(grid_plane_indices) / sizeof(u32));
+
+	grid_plane_va->add_vertex_buffer(grid_plane_vb);
+	grid_plane_va->set_index_buffer(grid_plane_ib);
+
+	grid_plane_shader = new DP::Shader("editor/assets/shaders/grid.vert", "editor/assets/shaders/grid.frag");
+
 	test_scene = new DP::Scene("Test");
 
 	auto* e = test_scene->data->context.request_new("Cube");
 
 	e->mesh.set_data(vertices, sizeof(vertices) / sizeof(float), indices, sizeof(indices) / sizeof(u32));
-	e->transform.positon = glm::vec3(0.0f, 0.0f, -2.0f);
 	e->component_bitfield = DP::Component::TRANSFORM_COMPONENT_BITMASK | DP::Component::MESH_COMPONENT_BITMASK;
 }
 
@@ -92,7 +118,17 @@ void EditorLayer::on_update(float delta_time)
 	DP::Renderer::set_clear_color(0.3f, 0.3f, 0.3f);
 	DP::Renderer::clear();
 
+	DP::Renderer::begin_draw_scope(editor_camera);
+
 	test_scene->on_update_editor(delta_time, editor_camera);
+
+	DP::Renderer::end_draw_scope();
+
+	auto t = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+
+	DP::Renderer::begin_draw_scope(editor_camera);
+	DP::Renderer::submit_draw(grid_plane_shader, grid_plane_va, t);
+	DP::Renderer::end_draw_scope();
 
 	framebuffer->unbind();
 }

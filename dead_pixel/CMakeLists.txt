@@ -5,8 +5,9 @@ set( CMAKE_CXX_STANDARD 20 )
 set( CMAKE_CXX_STANDARD_REQUIRED 1 )
 
 set( PLATFORM_GENERIC_SOURCES
-	platform/generic/generic_window.cc
+	platform/generic/generic_input.cc
 	platform/generic/generic_time.cc
+	platform/generic/generic_window.cc
 )
 
 set( GL_SOURCES

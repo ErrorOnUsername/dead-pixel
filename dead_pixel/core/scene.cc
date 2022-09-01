@@ -7,7 +7,7 @@ namespace DP {
 
 void Scene::on_update_editor(float delta_time, EditorCamera *camera)
 {
-	Renderer::begin_draw_scope(camera);
+	camera->on_update(delta_time);
 
 	data->context.for_each([] (Entity* e) {
 		if(e->component_bitfield & Component::MESH_COMPONENT_BITMASK &&
@@ -19,8 +19,6 @@ void Scene::on_update_editor(float delta_time, EditorCamera *camera)
 			    tf);
 		}
 	});
-
-	Renderer::end_draw_scope();
 }
 
 void Scene::on_update_runtime(float delta_time)
