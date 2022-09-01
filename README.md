@@ -18,7 +18,7 @@ components of modern games actually work.
 - [X] Shaders
 - [X] Basic Editor UI
 - [ ] glTF 2.0 parsing
-- [ ] Gizmos and Gridlines
+- [ ] Gizmos and ~~Gridlines~~
 - [ ] Jump Flood Algorithm (editor outlines)
 - [ ] Lighting
 - [ ] Shadows
