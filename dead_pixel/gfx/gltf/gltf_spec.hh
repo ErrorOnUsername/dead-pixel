@@ -4,6 +4,8 @@
 
 #include <core/types.hh>
 
+namespace DP {
+
 constexpr u32 GLB_MAGIC = 0x46546C67; // "glTF" in ASCII
 
 constexpr u32 GLB_CHUNK_TYPE_JSON   = 0x4E4F534A; // "JSON" in ASCII
@@ -19,10 +21,12 @@ static_assert(sizeof(GLBHeader) == 12);
 struct GLBChunk {
 	u32 chunk_length;
 	u32 chunk_type;
-	u8* chunk_data;
+	u8  chunk_data_start;
 } PACKED;
-static_assert(sizeof(GLBChunk) == 16);
+static_assert(sizeof(GLBChunk) == 9);
 
 struct ParsedGLTFFile {
 	DP::MeshComponent mesh;
 };
+
+}

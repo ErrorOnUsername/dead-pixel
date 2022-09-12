@@ -25,6 +25,7 @@ set( GL_SOURCES
 set( CORE_SOURCES
 	core/application.cc
 	core/imgui_layer.cc
+	core/json_parser.cc
 	core/log.cc
 	core/scene.cc
 )
@@ -37,6 +38,7 @@ set( ENTITY_SYSTEM_SOURCES
 set( GFX_SOURCES
 	${GL_SOURCES}
 	gfx/editor_camera.cc
+	gfx/gltf/gltf_parser.cc
 )
 
 set( PLATFORM_SOURCES
