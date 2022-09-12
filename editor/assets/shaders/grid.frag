@@ -4,7 +4,7 @@ in vec3 pass_pos;
 
 out vec4 out_color;
 
-#define LINE_WIDTH 0.52
+#define LINE_WIDTH 0.51
 
 void main()
 {

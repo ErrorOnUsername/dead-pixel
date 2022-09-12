@@ -1,13 +1,14 @@
 #include "editor_layer.hh"
-#include "gfx/shader.hh"
 
 #include <imgui.h>
 
 #include <core/application.hh>
 #include <core/assert.hh>
 #include <entity_system/components/bitmasks.hh>
-#include <gfx/renderer.hh>
+#include <gfx/gltf/gltf_parser.hh>
 #include <gfx/framebuffer.hh>
+#include <gfx/renderer.hh>
+#include <gfx/shader.hh>
 #include <panels.hh>
 
 static float grid_plane_vertices[] = {
@@ -98,6 +99,8 @@ void EditorLayer::on_attach()
 	grid_plane_shader = new DP::Shader("editor/assets/shaders/grid.vert", "editor/assets/shaders/grid.frag");
 
 	test_scene = new DP::Scene("Test");
+
+	auto gltf = DP::GLTFParser::from_file("dead_pixel/default_assets/meshes/cube.glb");
 
 	auto* e = test_scene->data->context.request_new("Cube");
 
