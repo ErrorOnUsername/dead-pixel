@@ -3,7 +3,8 @@ This is just a game engine I'm making to learn about how the various
 components of modern games actually work.
 
 > A quick note that building is only confirmed to work on macOS, as that's
-> the only computer I have. Hopefully Windows is coming soon!
+> the only computer I'm using to develop this. Hopefully Windows and Linux
+> is coming soon!
 
 ## Latest Screenshot
 <p align="center">
