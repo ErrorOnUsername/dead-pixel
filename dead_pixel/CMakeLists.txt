@@ -24,6 +24,7 @@ set( GL_SOURCES
 
 set( CORE_SOURCES
 	core/application.cc
+	core/file_utils.cc
 	core/imgui_layer.cc
 	core/json_parser.cc
 	core/log.cc

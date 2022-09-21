@@ -2,6 +2,9 @@
 This is just a game engine I'm making to learn about how the various
 components of modern games actually work.
 
+> A quick note that building is only confirmed to work on macOS, as that's
+> the only computer I have. Hopefully Windows is coming soon!
+
 ## Latest Screenshot
 <p align="center">
 
@@ -9,7 +12,7 @@ components of modern games actually work.
 
 </p>
 
-## ToDo
+## To-Do
 - [X] Basic window
 - [X] Event system
 - [X] VAOs, VBOs, and IBOs
@@ -17,8 +20,11 @@ components of modern games actually work.
 - [X] Textures (stb-image)
 - [X] Shaders
 - [X] Basic Editor UI
-- [ ] glTF 2.0 parsing
-- [ ] Gizmos and ~~Gridlines~~
+- [X] Gridlines
+- [ ] glTF 2.0 parsing (WIP)
+- [ ] Mouse Picking
+- [ ] Gizmos
 - [ ] Jump Flood Algorithm (editor outlines)
 - [ ] Lighting
 - [ ] Shadows
+- [ ] Sound

@@ -44,11 +44,7 @@ Texture::Texture(char const* path)
 	char abs_path[256];
 	strncpy(abs_path, cwd, cwd_len);
 
-#ifdef _WIN32
-	abs_path[cwd_len] = '\\';
-#else
 	abs_path[cwd_len] = '/';
-#endif
 
 	ASSERT(256 - (cwd_len + 1) >= rel_len, "FILE PATH TOO LONG AND DOESN'T FIT IN BUFFER");
 	strncpy(&abs_path[cwd_len + 1], path, rel_len);

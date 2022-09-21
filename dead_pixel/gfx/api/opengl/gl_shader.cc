@@ -1,3 +1,4 @@
+#include "core/file_utils.hh"
 #include <cstring>
 #include <stdio.h>
 #include <unistd.h>
@@ -5,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <core/assert.hh>
+#include <core/file_utils.hh>
 #include <core/log.hh>
 #include <gfx/shader.hh>
 
@@ -18,12 +20,7 @@ static char const* find_shader_name_from_filepath(char const* filepath)
 	usize name_length      = 0;
 
 	for(usize i = 0; i < filepath_length; i++) {
-#ifdef _WIN32
-		// Gotta love the DOS artifacts
-		if(filepath[i] == '\\') {
-#else
 		if(filepath[i] == '/') {
-#endif
 			last_slash_index = i;
 		} else if(filepath[i] == '.') {
 			end_index = i;
@@ -73,6 +70,7 @@ Shader::Shader(char const* shader_name
 
 Shader::~Shader()
 {
+	free((void*)name); // This would've been a leak :P
 	glDeleteProgram(program_id);
 }
 
@@ -98,39 +96,7 @@ void Shader::compile_code(char const* vert_source, char const* frag_source)
 
 char const* Shader::read_file(char const* relative_filepath)
 {
-	char cwd[128];
-	getcwd(cwd, 128);
-
-	usize cwd_len = strlen(cwd);
-	usize rel_len = strlen(relative_filepath);
-
-	char abs_path[256];
-	strncpy(abs_path, cwd, cwd_len);
-
-#ifdef _WIN32
-	abs_path[cwd_len] = '\\';
-#else
-	abs_path[cwd_len] = '/';
-#endif
-
-	ASSERT(256 - (cwd_len + 1) >= rel_len, "FILE PATH TOO LONG AND DOESN'T FIT IN BUFFER");
-	strncpy(&abs_path[cwd_len + 1], relative_filepath, rel_len);
-
-	abs_path[cwd_len + 1 + rel_len] = 0;
-
-	FILE* file = fopen((char const*)abs_path, "r");
-	ASSERT_FMT(file, "Could not find file at path: {0}!!!", relative_filepath);
-
-	fseek(file, 0, SEEK_END);
-	usize size = ftell(file);
-	fseek(file, 0, SEEK_SET);
-
-	void* data = malloc(size + 1);
-	fread(data, 1, size, file);
-	fclose(file);
-
-	((u8*)data)[size] = 0;
-	return (char const*)data;
+	return (char const*)FileUtils::read_file_from_relative_path(relative_filepath);
 }
 
 uint32_t Shader::load_shader(GLenum shader_type, char const* shader_source)

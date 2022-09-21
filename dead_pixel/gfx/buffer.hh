@@ -75,7 +75,7 @@ struct BufferLayout {
 	std::vector<BufferElement> elements;
 	u32                        stride;
 
-	BufferLayout() { };
+	BufferLayout() { }
 	BufferLayout(std::initializer_list<BufferElement> initializer_elements)
 		: elements(initializer_elements)
 	{
