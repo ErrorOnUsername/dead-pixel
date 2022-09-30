@@ -35,7 +35,7 @@ GLTFParser::GLTFParser(char const* filepath)
 
 GLTFParser::~GLTFParser()
 {
-	//free(file_data);
+	free(file_data);
 }
 
 ParsedGLTFFile GLTFParser::parse()

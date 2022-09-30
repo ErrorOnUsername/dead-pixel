@@ -37,7 +37,8 @@ u8* read_file_from_relative_path(char const* rel_path)
 	fseek(file, 0, SEEK_SET);
 
 	u8* file_data = (u8*)malloc(size + 1);
-	fread(file_data, 1, size, file);
+	fread(file_data, 1, size + 1, file);
+	file_data[size] = 0;
 	fclose(file);
 
 	return file_data;
