@@ -101,6 +101,7 @@ void EditorLayer::on_attach()
 	test_scene = new DP::Scene("Test");
 
 	auto gltf = DP::GLTFParser("dead_pixel/default_assets/meshes/cube.glb");
+	auto parsed_file = gltf.parse();
 
 	auto* e = test_scene->data->context.request_new("Cube");
 

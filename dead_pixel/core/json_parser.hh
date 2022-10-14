@@ -2,11 +2,12 @@
 #include <unordered_map>
 #include <vector>
 
-#include <core/arena_allocator.hh>
+#include <core/assert.hh>
 #include <core/types.hh>
 
 namespace DP {
 
+#define JSON_MEMBER_TYPE_INVALID -1
 #define JSON_MEMBER_TYPE_OBJECT   0
 #define JSON_MEMBER_TYPE_ARRAY    1
 #define JSON_MEMBER_TYPE_NUMBER_I 2
@@ -19,7 +20,7 @@ struct JSONArray;
 struct JSONObject;
 
 struct JSONValue {
-	i32 type;
+	i32 type = JSON_MEMBER_TYPE_INVALID;
 
 	std::string str;
 
@@ -37,6 +38,13 @@ struct JSONValue {
 		bool b8;
 	} value;
 };
+
+#define JSON_READ_OBJ_PROP(ident_name, obj_ident, name, expected_type) \
+	JSONValue ident_name = obj_ident.value.obj->props[name]; \
+	ASSERT_FMT(ident_name.type == expected_type, "field '{}' was supposed to be type: {}, but got: {}", name, expected_type, ident_name.type);
+#define JSON_READ_ARRAY_ELEM(ident_name, arr_ident, idx, expected_type) \
+	JSONValue ident_name = arr_ident.value.arr->elems[idx]; \
+	ASSERT_FMT(ident_name.type == expected_type, "Value at index: {} was supposed to be type: {}, but got: {}", idx, expected_type, ident_name.type);
 
 struct JSONArray {
 	std::vector<JSONValue> elems;

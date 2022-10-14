@@ -83,6 +83,7 @@ void EditorCamera::on_event(Event& e)
 
 bool on_mouse_scroll(EditorCamera& context, MouseScrolledEvent& e)
 {
+	if(!Input::is_key_down(Input::Key::LeftAlt)) return false;
 	context.distance -= e.y_offset;
 	if(context.distance < 1.0f) context.distance = 1.0f;
 	else if(context.distance > 20.0f) context.distance = 20.0f;

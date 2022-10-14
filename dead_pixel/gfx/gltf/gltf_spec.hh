@@ -26,7 +26,7 @@ struct GLBChunk {
 static_assert(sizeof(GLBChunk) == 9);
 
 struct ParsedGLTFFile {
-	DP::MeshComponent mesh;
+	DP::MeshComponent mesh0;
 };
 
 }
